@@ -1,6 +1,8 @@
-# template-repo
+# Hired Hand:  Resume Builder
 
 ## Overview
+
+Part of the Hired Hand family of Chrome extensions.  TypeScript based Chrome Extension that allows users to build and export ATS compatible resumes.  Formats available for export include TxT, JSON, HTML, DOCX,and PDF.
 
 ## Getting Started
 
