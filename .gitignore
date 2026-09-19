@@ -60,3 +60,12 @@ Thumbs.db
 *.crx
 *.pem
 .crxjs/
+
+# Achives
+*.zip
+*.tar.gz
+*.rar
+*.ace
+*.iso
+*.dmg
+*.7z
