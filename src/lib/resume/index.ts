@@ -1,3 +1,13 @@
+export {
+  createBlankCertificationEntry,
+  createBlankContact,
+  createBlankEducationEntry,
+  createBlankExperienceEntry,
+  createBlankLink,
+  createBlankProjectEntry,
+  createBlankResume,
+  createBlankSkillGroup,
+} from './blank';
 export { createFixtureResume } from './fixtures';
 export { createId } from './id';
 export {

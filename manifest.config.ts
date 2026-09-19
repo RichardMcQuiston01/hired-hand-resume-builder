@@ -10,12 +10,13 @@ export default defineManifest({
   description:
     'Build and export ATS-compatible resumes. Part of the Hired Hand family of Chrome extensions.',
   version,
-  action: {
-    default_popup: 'src/popup/index.html',
-  },
+  action: {},
   background: {
     service_worker: 'src/background/service-worker.ts',
     type: 'module',
   },
-  permissions: ['storage'],
+  side_panel: {
+    default_path: 'src/sidepanel/index.html',
+  },
+  permissions: ['storage', 'sidePanel'],
 });
