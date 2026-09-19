@@ -43,6 +43,8 @@ Load the extension locally:
 1. Run `npm run build` (or `npm run dev` for a watch build).
 2. Open `chrome://extensions`, enable **Developer mode**.
 3. Click **Load unpacked** and select the `dist/` directory.
+4. Click the extension's toolbar icon to open the resume builder in the
+   browser's side panel.
 
 ### Examples
 
