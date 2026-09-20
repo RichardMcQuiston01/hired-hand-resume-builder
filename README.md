@@ -2,7 +2,17 @@
 
 ## Overview
 
-Part of the Hired Hand family of Chrome extensions. TypeScript based Chrome Extension that allows users to build and export ATS compatible resumes. Formats available for export include TxT, JSON, HTML, DOCX,and PDF.
+Part of the Hired Hand family of Chrome extensions. A TypeScript-based
+Chrome extension for building, ATS-checking, and exporting a resume — all
+from a side panel that stays open next to whatever job posting or
+Applicant Tracking System (ATS) you're working against.
+
+- Multiple resume profiles with autosave and undo
+- Structural and keyword-based ATS compatibility checks
+- Export to TXT, JSON, HTML, DOCX, and PDF
+- Import a previously exported JSON resume
+- Optional AI-assisted summary/bullet rewrites and keyword-gap
+  suggestions, using your own Anthropic API key
 
 ## Getting Started
 
@@ -10,16 +20,106 @@ Part of the Hired Hand family of Chrome extensions. TypeScript based Chrome Exte
 
 - [Node.js](https://nodejs.org/) 22+
 - npm 10+
-- A Chromium-based browser (Chrome, Edge, Brave, etc.) for loading the
-  unpacked extension during development
+- A Chromium-based browser (Chrome, Edge, Brave, etc.)
 
-### Installation
+### Build and load the extension
+
+The extension isn't published to the Chrome Web Store yet, so it's loaded
+as an unpacked build:
 
 ```sh
 npm install
+npm run build
 ```
 
-### Usage
+Then, in Chrome:
+
+1. Open `chrome://extensions`, enable **Developer mode**.
+2. Click **Load unpacked** and select the `dist/` directory.
+3. Click the extension's toolbar icon to open the resume builder in the
+   browser's side panel.
+
+## Using the Extension
+
+### Managing resume profiles
+
+The bar at the top of the side panel manages your resume profiles — keep a
+separate one for each role or industry you're applying to.
+
+- **Active resume profile** dropdown — switch between saved profiles.
+- **New** — create a blank profile.
+- **Duplicate** — copy the active profile, including all its content.
+- **Rename** — rename the active profile (Enter to save, Escape to
+  cancel).
+- **Delete** — remove the active profile (disabled when it's the last
+  one).
+- **Undo** — revert your most recent edit to the active profile.
+
+Profiles save automatically a moment after you stop typing — there's no
+explicit "Save" button.
+
+### Filling in your resume
+
+The left column has a form for every part of the resume; the right column
+shows a live preview as you type. Fields marked with a red `*` are
+required for the resume to pass ATS structural checks.
+
+- **Contact** — name, email, phone, location, and any number of links
+  (LinkedIn, GitHub, portfolio, etc.).
+- **Summary** — a short professional summary/pitch.
+- **Experience** — one entry per job: company, title, location, dates (or
+  "I currently work here"), and a bulleted list of highlights.
+- **Education** — one entry per school: institution, credential, dates,
+  and highlights (honors, relevant coursework, etc.).
+- **Skills** — one or more categories (e.g. "Languages," "Frameworks"),
+  each with a list of skills.
+- **Certifications** — name, issuer, issue/expiration dates, and an
+  optional credential URL.
+- **Projects** — name, description, an optional URL, and highlights.
+
+### Checking ATS compatibility
+
+The **ATS Check** section runs two kinds of checks:
+
+- **Structural checks** run automatically and flag things that break
+  Applicant Tracking Systems — missing required fields, malformed dates,
+  an empty resume, a missing summary, or a highlight that still has a
+  leading bullet character.
+- **Keyword match** — paste a target job description into the **Job
+  description** box to get a match score and the keywords from the
+  posting that don't yet appear in your resume.
+
+### Exporting your resume
+
+The **Export** section generates a file from the active profile in five
+formats — **TXT**, **JSON**, **HTML**, **DOCX**, or **PDF**. The PDF and
+DOCX exports are real, ATS-parseable text, not a flattened image, and the
+JSON export round-trips losslessly through **Import**.
+
+### Importing a resume
+
+The **Import** section reads a previously exported JSON file (from this
+extension, or eventually from `resume-ats-vscode-ext`) and adds it as a
+new profile, named after the file.
+
+### AI Suggestions (optional)
+
+The **AI Suggestions** section can rewrite your summary, rewrite a single
+bullet point, or suggest ways to close keyword gaps against a job
+description, using Claude. It's off by default:
+
+1. Get an API key from [console.anthropic.com](https://console.anthropic.com/settings/keys).
+2. Paste it into the AI Suggestions section and click **Save key**.
+3. Use **Improve summary** (Apply/Discard the rewrite directly),
+   **Improve a bullet point** (copies the rewrite to your clipboard), or
+   **Suggest fixes** for keyword gaps against a pasted job description.
+
+Your resume content is sent to Anthropic's API only when you click one of
+these buttons — never automatically — and only the specific text that
+suggestion needs, using the API key you supplied. **Forget API key** removes
+the key and turns the feature back off at any time.
+
+## Development
 
 ```sh
 # Start Vite in extension dev mode (rebuilds on change)
@@ -45,25 +145,7 @@ npm run test:e2e
 npm run build
 ```
 
-Load the extension locally:
-
-1. Run `npm run build` (or `npm run dev` for a watch build).
-2. Open `chrome://extensions`, enable **Developer mode**.
-3. Click **Load unpacked** and select the `dist/` directory.
-4. Click the extension's toolbar icon to open the resume builder in the
-   browser's side panel.
-
-### Examples
-
-See [ROADMAP.md](./ROADMAP.md) for the planned development stages and
-feature set.
-
-## Privacy & Store Listing
-
-The extension stores everything locally and makes no network requests — see
-[docs/PRIVACY_POLICY.md](./docs/PRIVACY_POLICY.md). Chrome Web Store
-listing copy and submission checklist:
-[docs/STORE_LISTING.md](./docs/STORE_LISTING.md).
+See [ROADMAP.md](./ROADMAP.md) for what's next.
 
 ## Buy Me a Coffee
 
