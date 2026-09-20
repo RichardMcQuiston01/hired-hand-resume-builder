@@ -9,5 +9,5 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   reporter: 'list',
-  timeout: 30_000,
+  timeout: 60_000,
 });

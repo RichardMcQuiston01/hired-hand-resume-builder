@@ -40,6 +40,12 @@ test.beforeAll(async () => {
     args: [
       `--disable-extensions-except=${EXTENSION_PATH}`,
       `--load-extension=${EXTENSION_PATH}`,
+      // GitHub Actions runners execute as root, where Chromium's sandbox
+      // refuses to start at all — without this the browser process never
+      // comes up, so no extension service worker ever registers and the
+      // beforeAll hook below just times out waiting for one.
+      '--no-sandbox',
+      '--disable-dev-shm-usage',
     ],
   });
 
