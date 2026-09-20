@@ -12,7 +12,20 @@ import { createBlankResume } from '../lib/resume';
 import { installFakeChromeStorage } from '../test/chromeStorageFake';
 import { App } from './App';
 
-/** Flushes the App's initial `loadPersistedState()` microtask. */
+const createMessageMock = vi.fn();
+
+class MockAnthropic {
+  static AuthenticationError = class extends Error {};
+  static RateLimitError = class extends Error {};
+  static APIConnectionError = class extends Error {};
+  static APIError = class extends Error {};
+  messages = { create: createMessageMock };
+  constructor(public options: unknown) {}
+}
+
+vi.mock('@anthropic-ai/sdk', () => ({ default: MockAnthropic }));
+
+/** Flushes the App's initial `loadPersistedState()`/`loadAiSettings()` microtasks. */
 async function flushLoad(): Promise<void> {
   await act(async () => {
     await Promise.resolve();
@@ -21,6 +34,7 @@ async function flushLoad(): Promise<void> {
 
 beforeEach(() => {
   installFakeChromeStorage();
+  createMessageMock.mockReset();
 });
 
 describe('App', () => {
@@ -55,6 +69,26 @@ describe('App', () => {
     fireEvent.click(screen.getByRole('button', { name: '+ Add job' }));
 
     expect(screen.getByLabelText(/company/i)).toBeInTheDocument();
+  });
+
+  it('cancels a profile rename on Escape without committing it', async () => {
+    render(<App />);
+    await flushLoad();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Rename' }));
+    const renameInput = screen.getByLabelText('Resume profile name');
+    fireEvent.change(renameInput, { target: { value: 'Should not save' } });
+    fireEvent.keyDown(renameInput, { key: 'Escape' });
+
+    expect(
+      screen.queryByLabelText('Resume profile name'),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('option', { name: 'My Resume' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole('option', { name: 'Should not save' }),
+    ).not.toBeInTheDocument();
   });
 
   it('creates a new profile from the profile bar', async () => {
@@ -192,5 +226,66 @@ describe('App', () => {
     expect(
       screen.getByText('That file is not valid JSON.'),
     ).toBeInTheDocument();
+  });
+
+  it('shows an API key setup form until AI suggestions are configured', async () => {
+    render(<App />);
+    await flushLoad();
+
+    expect(screen.getByLabelText('Anthropic API key')).toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: /improve summary/i }),
+    ).not.toBeInTheDocument();
+  });
+
+  it('unlocks AI suggestion actions after saving an API key', async () => {
+    render(<App />);
+    await flushLoad();
+
+    fireEvent.change(screen.getByLabelText('Anthropic API key'), {
+      target: { value: 'sk-ant-test-key' },
+    });
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: 'Save key' }));
+      await Promise.resolve();
+    });
+
+    expect(
+      screen.getByRole('button', { name: /improve summary/i }),
+    ).toBeInTheDocument();
+    expect(createMessageMock).not.toHaveBeenCalled();
+  });
+
+  it('applies an AI-suggested summary rewrite to the resume', async () => {
+    createMessageMock.mockResolvedValueOnce({
+      stop_reason: 'end_turn',
+      content: [{ type: 'text', text: 'A sharper, rewritten summary.' }],
+    });
+
+    render(<App />);
+    await flushLoad();
+
+    fireEvent.change(screen.getByLabelText('Anthropic API key'), {
+      target: { value: 'sk-ant-test-key' },
+    });
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: 'Save key' }));
+      await Promise.resolve();
+    });
+
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: /improve summary/i }));
+      await Promise.resolve();
+    });
+
+    expect(
+      screen.getByText('A sharper, rewritten summary.'),
+    ).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Apply' }));
+
+    expect(screen.getByLabelText('Professional summary')).toHaveValue(
+      'A sharper, rewritten summary.',
+    );
   });
 });

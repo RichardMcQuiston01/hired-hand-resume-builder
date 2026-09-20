@@ -31,8 +31,15 @@ npm run typecheck
 # Lint
 npm run lint
 
-# Run the test suite
+# Run the test suite (includes an automated accessibility check via jest-axe)
 npm run test
+
+# Cross-browser smoke test: builds and loads dist/ as an unpacked
+# extension in real Chromium via Playwright. MV3 extension service
+# workers aren't reliable in headless Chromium, so this launches a
+# headed browser — it needs a real display, or `xvfb-run` on Linux:
+#   xvfb-run npm run test:e2e
+npm run test:e2e
 
 # Production build (outputs to dist/)
 npm run build
@@ -50,6 +57,13 @@ Load the extension locally:
 
 See [ROADMAP.md](./ROADMAP.md) for the planned development stages and
 feature set.
+
+## Privacy & Store Listing
+
+The extension stores everything locally and makes no network requests — see
+[docs/PRIVACY_POLICY.md](./docs/PRIVACY_POLICY.md). Chrome Web Store
+listing copy and submission checklist:
+[docs/STORE_LISTING.md](./docs/STORE_LISTING.md).
 
 ## Buy Me a Coffee
 

@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react';
 
+import { AiPanel } from './components/AiPanel';
 import { AtsPanel } from './components/AtsPanel';
 import { ExportPanel } from './components/ExportPanel';
 import { ImportPanel } from './components/ImportPanel';
@@ -56,6 +57,12 @@ export function App(): ReactElement {
         <ImportPanel onImport={importProfile} />
         <ExportPanel resume={activeProfile.resume} />
         <AtsPanel resume={activeProfile.resume} />
+        <AiPanel
+          resume={activeProfile.resume}
+          onApplySummary={(summary) => {
+            updateActiveResume((resume) => ({ ...resume, summary }));
+          }}
+        />
       </main>
     </div>
   );

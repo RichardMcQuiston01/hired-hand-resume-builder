@@ -53,6 +53,7 @@ export function RepeatingSection<TItem>({
             onClick={() => {
               handleRemove(index);
             }}
+            aria-label={`Remove ${title} entry ${index + 1}`}
             className="self-start text-xs text-red-600 hover:underline"
           >
             Remove

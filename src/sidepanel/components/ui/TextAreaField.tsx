@@ -27,7 +27,7 @@ export function TextAreaField({
         onChange={handleChange}
         placeholder={placeholder}
         rows={rows}
-        className="rounded border border-slate-300 px-2 py-1 text-sm focus:border-slate-500 focus:outline-none"
+        className="rounded border border-slate-300 px-2 py-1 text-sm focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500"
       />
     </label>
   );

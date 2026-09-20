@@ -31,4 +31,7 @@ export default defineManifest({
     default_path: 'src/sidepanel/index.html',
   },
   permissions: ['storage', 'sidePanel'],
+  // Only reached when the user opts into AI suggestions and supplies their
+  // own Anthropic API key (see src/lib/ai/). No other network access.
+  host_permissions: ['https://api.anthropic.com/*'],
 });

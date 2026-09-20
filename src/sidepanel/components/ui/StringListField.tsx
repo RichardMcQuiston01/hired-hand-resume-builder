@@ -40,13 +40,15 @@ export function StringListField({
               handleItemChange(index, event);
             }}
             placeholder={placeholder}
-            className="flex-1 rounded border border-slate-300 px-2 py-1 text-sm focus:border-slate-500 focus:outline-none"
+            aria-label={`${label} ${index + 1}`}
+            className="min-w-0 flex-1 rounded border border-slate-300 px-2 py-1 text-sm focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500"
           />
           <button
             type="button"
             onClick={() => {
               handleRemove(index);
             }}
+            aria-label={`Remove ${label} ${index + 1}`}
             className="text-xs text-red-600 hover:underline"
           >
             Remove

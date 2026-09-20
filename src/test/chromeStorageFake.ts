@@ -1,8 +1,8 @@
 /**
  * Minimal in-memory stand-in for `chrome.storage.local`, since jsdom (the
  * Vitest test environment) has no `chrome` global. Only the promise-based
- * `get`/`set` surface used by `src/lib/storage/resumeStorage.ts` is
- * implemented.
+ * `get`/`set`/`remove` surface used by `src/lib/storage/resumeStorage.ts`
+ * and `src/lib/ai/settings.ts` is implemented.
  */
 export function installFakeChromeStorage(): void {
   const store = new Map<string, unknown>();
@@ -30,7 +30,13 @@ export function installFakeChromeStorage(): void {
     }
   }
 
+  async function remove(keys: string | string[]): Promise<void> {
+    for (const key of Array.isArray(keys) ? keys : [keys]) {
+      store.delete(key);
+    }
+  }
+
   globalThis.chrome = {
-    storage: { local: { get, set } },
+    storage: { local: { get, set, remove } },
   } as unknown as typeof chrome;
 }

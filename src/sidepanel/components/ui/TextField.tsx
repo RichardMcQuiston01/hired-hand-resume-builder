@@ -22,7 +22,7 @@ export function TextField({
   }
 
   return (
-    <label className="flex flex-1 flex-col gap-1 text-sm">
+    <label className="flex min-w-0 flex-1 flex-col gap-1 text-sm">
       <span className="font-medium text-slate-700">
         {label}
         {required && <span className="text-red-500"> *</span>}
@@ -33,7 +33,7 @@ export function TextField({
         onChange={handleChange}
         placeholder={placeholder}
         required={required}
-        className="rounded border border-slate-300 px-2 py-1 text-sm focus:border-slate-500 focus:outline-none"
+        className="w-full min-w-0 rounded border border-slate-300 px-2 py-1 text-sm focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500"
       />
     </label>
   );
