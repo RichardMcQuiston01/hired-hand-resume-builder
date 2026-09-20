@@ -83,4 +83,32 @@ describe('App', () => {
     ).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Undo' })).toBeDisabled();
   });
+
+  it('surfaces an ATS structural warning for a blank resume', async () => {
+    render(<App />);
+    await flushLoad();
+
+    expect(
+      screen.getByText(/an empty resume will not pass ATS screening/i),
+    ).toBeInTheDocument();
+  });
+
+  it('reports a keyword match score once a job description is pasted', async () => {
+    render(<App />);
+    await flushLoad();
+
+    fireEvent.change(screen.getByLabelText(/full name/i), {
+      target: { value: 'Jordan Rivera' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: '+ Add job' }));
+    fireEvent.change(screen.getByLabelText(/^company/i), {
+      target: { value: 'Acme Corp' },
+    });
+
+    fireEvent.change(screen.getByLabelText(/job description/i), {
+      target: { value: 'Looking for someone with Acme experience.' },
+    });
+
+    expect(screen.getByText(/match score: /i)).toBeInTheDocument();
+  });
 });
