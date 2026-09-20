@@ -56,6 +56,35 @@ describe('useResumeProfiles', () => {
     expect(result.current.activeProfile.id).not.toBe(firstProfileId);
   });
 
+  it('adds an imported resume as a new active profile', async () => {
+    const { result } = renderHook(() => useResumeProfiles());
+    await flushLoad();
+    const firstProfileId = result.current.activeProfile.id;
+    const importedResume = setFullName(createBlankResume(), 'Taylor Kim');
+
+    act(() => {
+      result.current.importProfile(importedResume, 'jordan-rivera-resume');
+    });
+
+    expect(result.current.profiles).toHaveLength(2);
+    expect(result.current.activeProfile.name).toBe('jordan-rivera-resume');
+    expect(result.current.activeProfile.id).not.toBe(firstProfileId);
+    expect(result.current.activeProfile.resume.contact.fullName).toBe(
+      'Taylor Kim',
+    );
+  });
+
+  it('falls back to a default name for an import with a blank name', async () => {
+    const { result } = renderHook(() => useResumeProfiles());
+    await flushLoad();
+
+    act(() => {
+      result.current.importProfile(createBlankResume(), '  ');
+    });
+
+    expect(result.current.activeProfile.name).toBe('Imported resume');
+  });
+
   it('updates only the active profile resume', async () => {
     const { result } = renderHook(() => useResumeProfiles());
     await flushLoad();
