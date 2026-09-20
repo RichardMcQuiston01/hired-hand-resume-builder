@@ -35,7 +35,10 @@ npm run lint
 npm run test
 
 # Cross-browser smoke test: builds and loads dist/ as an unpacked
-# extension in real Chromium via Playwright
+# extension in real Chromium via Playwright. MV3 extension service
+# workers aren't reliable in headless Chromium, so this launches a
+# headed browser — it needs a real display, or `xvfb-run` on Linux:
+#   xvfb-run npm run test:e2e
 npm run test:e2e
 
 # Production build (outputs to dist/)

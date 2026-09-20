@@ -31,7 +31,11 @@ let sidePanelUrl: string;
 
 test.beforeAll(async () => {
   context = await chromium.launchPersistentContext('', {
-    headless: true,
+    // MV3 extension service workers don't reliably register in headless
+    // Chromium — Playwright's own extension-testing guidance calls for a
+    // headed browser under a virtual display (`xvfb-run` wraps `npm run
+    // test:e2e` in CI; see .github/workflows/ci.yml).
+    headless: false,
     // Lets environments with a pre-provisioned Chromium build (whose
     // revision may not match this project's pinned @playwright/test
     // version) point at it instead of Playwright's own downloaded browser.
@@ -41,9 +45,7 @@ test.beforeAll(async () => {
       `--disable-extensions-except=${EXTENSION_PATH}`,
       `--load-extension=${EXTENSION_PATH}`,
       // GitHub Actions runners execute as root, where Chromium's sandbox
-      // refuses to start at all — without this the browser process never
-      // comes up, so no extension service worker ever registers and the
-      // beforeAll hook below just times out waiting for one.
+      // refuses to start at all without this.
       '--no-sandbox',
       '--disable-dev-shm-usage',
     ],
