@@ -1,5 +1,11 @@
-import { act, fireEvent, render, screen } from '@testing-library/react';
-import { beforeEach, describe, expect, it } from 'vitest';
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { installFakeChromeStorage } from '../test/chromeStorageFake';
 import { App } from './App';
@@ -110,5 +116,30 @@ describe('App', () => {
     });
 
     expect(screen.getByText(/match score: /i)).toBeInTheDocument();
+  });
+
+  it('triggers a TXT download when the export button is clicked', async () => {
+    const createObjectURL = vi.fn(() => 'blob:mock-url');
+    const revokeObjectURL = vi.fn();
+    vi.stubGlobal('URL', { ...URL, createObjectURL, revokeObjectURL });
+    // jsdom doesn't implement the `download` attribute; without this it logs
+    // a "not implemented: navigation" warning when the anchor is clicked.
+    const clickSpy = vi
+      .spyOn(HTMLAnchorElement.prototype, 'click')
+      .mockImplementation(() => {});
+
+    render(<App />);
+    await flushLoad();
+
+    fireEvent.click(screen.getByRole('button', { name: 'TXT' }));
+
+    await waitFor(() => {
+      expect(createObjectURL).toHaveBeenCalledOnce();
+    });
+    expect(clickSpy).toHaveBeenCalledOnce();
+    expect(revokeObjectURL).toHaveBeenCalledWith('blob:mock-url');
+
+    clickSpy.mockRestore();
+    vi.unstubAllGlobals();
   });
 });

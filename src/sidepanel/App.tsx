@@ -1,6 +1,7 @@
 import type { ReactElement } from 'react';
 
 import { AtsPanel } from './components/AtsPanel';
+import { ExportPanel } from './components/ExportPanel';
 import { ProfileBar } from './components/ProfileBar';
 import { ResumeForm } from './components/ResumeForm';
 import { ResumePreview } from './components/ResumePreview';
@@ -50,6 +51,7 @@ export function App(): ReactElement {
             <ResumePreview resume={activeProfile.resume} />
           </div>
         </div>
+        <ExportPanel resume={activeProfile.resume} />
         <AtsPanel resume={activeProfile.resume} />
       </main>
     </div>
