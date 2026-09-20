@@ -7,6 +7,8 @@ import {
 } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { exportResumeAsJson } from '../lib/export';
+import { createBlankResume } from '../lib/resume';
 import { installFakeChromeStorage } from '../test/chromeStorageFake';
 import { App } from './App';
 
@@ -141,5 +143,54 @@ describe('App', () => {
 
     clickSpy.mockRestore();
     vi.unstubAllGlobals();
+  });
+
+  it('imports a resume from a JSON file as a new profile', async () => {
+    const imported = createBlankResume();
+    imported.contact.fullName = 'Taylor Kim';
+    const file = new File([exportResumeAsJson(imported)], 'taylor-kim.json', {
+      type: 'application/json',
+    });
+
+    render(<App />);
+    await flushLoad();
+
+    await act(async () => {
+      fireEvent.change(screen.getByLabelText('Import JSON'), {
+        target: { files: [file] },
+      });
+      await Promise.resolve();
+    });
+
+    expect(
+      screen.getByRole('heading', { name: 'Taylor Kim', level: 1 }),
+    ).toBeInTheDocument();
+    const select = screen.getByLabelText(
+      'Active resume profile',
+    ) as HTMLSelectElement;
+    expect(select.options).toHaveLength(2);
+    expect(
+      screen.getByRole('option', { name: 'taylor-kim' }),
+    ).toBeInTheDocument();
+  });
+
+  it('shows an error when an invalid file is imported', async () => {
+    const file = new File(['not json'], 'broken.json', {
+      type: 'application/json',
+    });
+
+    render(<App />);
+    await flushLoad();
+
+    await act(async () => {
+      fireEvent.change(screen.getByLabelText('Import JSON'), {
+        target: { files: [file] },
+      });
+      await Promise.resolve();
+    });
+
+    expect(
+      screen.getByText('That file is not valid JSON.'),
+    ).toBeInTheDocument();
   });
 });

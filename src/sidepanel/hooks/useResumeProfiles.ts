@@ -19,6 +19,7 @@ export interface UseResumeProfilesResult {
   canUndo: boolean;
   selectProfile: (profileId: string) => void;
   createProfile: (name: string) => void;
+  importProfile: (resume: Resume, name: string) => void;
   duplicateProfile: (profileId: string) => void;
   renameProfile: (profileId: string, name: string) => void;
   deleteProfile: (profileId: string) => void;
@@ -140,6 +141,19 @@ export function useResumeProfiles(): UseResumeProfilesResult {
       id: createId(),
       name: name.trim() || 'Untitled resume',
       resume: createBlankResume(),
+    };
+
+    setState({
+      profiles: [...state.profiles, profile],
+      activeProfileId: profile.id,
+    });
+  }
+
+  function importProfile(resume: Resume, name: string): void {
+    const profile: ResumeProfile = {
+      id: createId(),
+      name: name.trim() || 'Imported resume',
+      resume,
     };
 
     setState({
@@ -278,6 +292,7 @@ export function useResumeProfiles(): UseResumeProfilesResult {
     canUndo,
     selectProfile,
     createProfile,
+    importProfile,
     duplicateProfile,
     renameProfile,
     deleteProfile,
