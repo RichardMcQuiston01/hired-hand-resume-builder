@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react';
 
+import { AtsPanel } from './components/AtsPanel';
 import { ProfileBar } from './components/ProfileBar';
 import { ResumeForm } from './components/ResumeForm';
 import { ResumePreview } from './components/ResumePreview';
@@ -37,17 +38,20 @@ export function App(): ReactElement {
         canUndo={canUndo}
         onUndo={undoActiveResume}
       />
-      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto lg:flex-row lg:overflow-hidden">
-        <div className="min-h-0 flex-1 overflow-y-auto lg:border-r lg:border-slate-200">
-          <ResumeForm
-            resume={activeProfile.resume}
-            onChange={updateActiveResume}
-          />
+      <main className="flex min-h-0 flex-1 flex-col overflow-y-auto">
+        <div className="flex flex-col lg:flex-row">
+          <div className="lg:flex-1 lg:border-r lg:border-slate-200">
+            <ResumeForm
+              resume={activeProfile.resume}
+              onChange={updateActiveResume}
+            />
+          </div>
+          <div className="lg:flex-1">
+            <ResumePreview resume={activeProfile.resume} />
+          </div>
         </div>
-        <div className="min-h-0 flex-1 overflow-y-auto">
-          <ResumePreview resume={activeProfile.resume} />
-        </div>
-      </div>
+        <AtsPanel resume={activeProfile.resume} />
+      </main>
     </div>
   );
 }
