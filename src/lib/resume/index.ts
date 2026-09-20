@@ -13,6 +13,7 @@ export { createId } from './id';
 export {
   parseResume,
   RESUME_SCHEMA_VERSION,
+  resumeDraftSchema,
   resumeSchema,
   safeParseResume,
   type CertificationEntry,

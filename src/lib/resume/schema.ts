@@ -91,6 +91,87 @@ export const resumeSchema = z.object({
   projects: z.array(projectEntrySchema).default([]),
 });
 
+const draftLinkSchema = z.object({
+  id: z.uuid(),
+  label: z.string(),
+  url: z.string(),
+});
+
+const draftContactSchema = z.object({
+  fullName: z.string(),
+  email: z.string(),
+  phone: z.string().optional(),
+  location: z.string().optional(),
+  links: z.array(draftLinkSchema).default([]),
+});
+
+const draftExperienceEntrySchema = z.object({
+  id: z.uuid(),
+  company: z.string(),
+  title: z.string(),
+  location: z.string().optional(),
+  startDate: z.string(),
+  endDate: z.string().optional(),
+  isCurrent: z.boolean(),
+  highlights: z.array(z.string()).default([]),
+});
+
+const draftEducationEntrySchema = z.object({
+  id: z.uuid(),
+  institution: z.string(),
+  credential: z.string(),
+  location: z.string().optional(),
+  startDate: z.string().optional(),
+  endDate: z.string().optional(),
+  isCurrent: z.boolean(),
+  highlights: z.array(z.string()).default([]),
+});
+
+const draftSkillGroupSchema = z.object({
+  id: z.uuid(),
+  category: z.string(),
+  skills: z.array(z.string()).default([]),
+});
+
+const draftCertificationEntrySchema = z.object({
+  id: z.uuid(),
+  name: z.string(),
+  issuer: z.string(),
+  issueDate: z.string().optional(),
+  expirationDate: z.string().optional(),
+  credentialUrl: z.string().optional(),
+});
+
+const draftProjectEntrySchema = z.object({
+  id: z.uuid(),
+  name: z.string(),
+  description: z.string(),
+  url: z.string().optional(),
+  highlights: z.array(z.string()).default([]),
+});
+
+/**
+ * A permissive counterpart to `resumeSchema`, for validating in-progress
+ * drafts — e.g. what gets round-tripped through storage while the user is
+ * still editing. Same shape, but without the business-rule constraints
+ * (a real email, non-empty required fields, YYYY-MM dates, ...) that only
+ * make sense once the user is done. Use `resumeSchema` / `parseResume` to
+ * check whether a resume is actually ready to export.
+ */
+export const resumeDraftSchema = z.object({
+  schemaVersion: z.literal(RESUME_SCHEMA_VERSION),
+  id: z.uuid(),
+  createdAt: z.iso.datetime(),
+  updatedAt: z.iso.datetime(),
+  contact: draftContactSchema,
+  summary: z.string().optional(),
+  experience: z.array(draftExperienceEntrySchema).default([]),
+  education: z.array(draftEducationEntrySchema).default([]),
+  skills: z.array(draftSkillGroupSchema).default([]),
+  certifications: z.array(draftCertificationEntrySchema).default([]),
+  projects: z.array(draftProjectEntrySchema).default([]),
+});
+
 export type Link = z.infer<typeof linkSchema>;
 export type Contact = z.infer<typeof contactSchema>;
 export type ExperienceEntry = z.infer<typeof experienceEntrySchema>;

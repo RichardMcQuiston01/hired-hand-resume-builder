@@ -1,19 +1,33 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { act, fireEvent, render, screen } from '@testing-library/react';
+import { beforeEach, describe, expect, it } from 'vitest';
 
+import { installFakeChromeStorage } from '../test/chromeStorageFake';
 import { App } from './App';
 
+/** Flushes the App's initial `loadPersistedState()` microtask. */
+async function flushLoad(): Promise<void> {
+  await act(async () => {
+    await Promise.resolve();
+  });
+}
+
+beforeEach(() => {
+  installFakeChromeStorage();
+});
+
 describe('App', () => {
-  it('renders the side panel heading', () => {
+  it('renders the side panel heading', async () => {
     render(<App />);
+    await flushLoad();
 
     expect(
       screen.getByRole('heading', { name: 'Hired Hand: Resume Builder' }),
     ).toBeInTheDocument();
   });
 
-  it('reflects edits to the form in the live preview', () => {
+  it('reflects edits to the form in the live preview', async () => {
     render(<App />);
+    await flushLoad();
 
     fireEvent.change(screen.getByLabelText(/full name/i), {
       target: { value: 'Jordan Rivera' },
@@ -24,8 +38,9 @@ describe('App', () => {
     ).toBeInTheDocument();
   });
 
-  it('adds a new experience entry to the form', () => {
+  it('adds a new experience entry to the form', async () => {
     render(<App />);
+    await flushLoad();
 
     expect(screen.queryByLabelText(/company/i)).not.toBeInTheDocument();
 
@@ -34,8 +49,9 @@ describe('App', () => {
     expect(screen.getByLabelText(/company/i)).toBeInTheDocument();
   });
 
-  it('creates a new profile from the profile bar', () => {
+  it('creates a new profile from the profile bar', async () => {
     render(<App />);
+    await flushLoad();
 
     fireEvent.click(screen.getByRole('button', { name: 'New' }));
 
@@ -47,5 +63,24 @@ describe('App', () => {
     expect(
       screen.getByRole('option', { name: 'Untitled resume' }),
     ).toBeInTheDocument();
+  });
+
+  it('enables Undo after an edit and reverts it', async () => {
+    render(<App />);
+    await flushLoad();
+
+    expect(screen.getByRole('button', { name: 'Undo' })).toBeDisabled();
+
+    fireEvent.change(screen.getByLabelText(/full name/i), {
+      target: { value: 'Jordan Rivera' },
+    });
+    expect(screen.getByRole('button', { name: 'Undo' })).toBeEnabled();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Undo' }));
+
+    expect(
+      screen.getByRole('heading', { name: 'Your Name', level: 1 }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Undo' })).toBeDisabled();
   });
 });

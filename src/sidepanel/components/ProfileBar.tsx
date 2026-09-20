@@ -11,6 +11,8 @@ interface ProfileBarProps {
   onDuplicate: (profileId: string) => void;
   onRename: (profileId: string, name: string) => void;
   onDelete: (profileId: string) => void;
+  canUndo: boolean;
+  onUndo: () => void;
 }
 
 export function ProfileBar({
@@ -21,6 +23,8 @@ export function ProfileBar({
   onDuplicate,
   onRename,
   onDelete,
+  canUndo,
+  onUndo,
 }: ProfileBarProps): ReactElement {
   const [isRenaming, setIsRenaming] = useState(false);
   const [draftName, setDraftName] = useState(activeProfile.name);
@@ -70,6 +74,14 @@ export function ProfileBar({
           ))}
         </select>
       )}
+      <button
+        type="button"
+        disabled={!canUndo}
+        onClick={onUndo}
+        className="text-xs font-medium text-slate-600 hover:underline disabled:cursor-not-allowed disabled:text-slate-400 disabled:no-underline"
+      >
+        Undo
+      </button>
       <button
         type="button"
         onClick={startRenaming}
