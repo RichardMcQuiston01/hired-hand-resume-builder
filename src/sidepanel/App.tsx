@@ -9,12 +9,14 @@ export function App(): ReactElement {
   const {
     profiles,
     activeProfile,
+    canUndo,
     selectProfile,
     createProfile,
     duplicateProfile,
     renameProfile,
     deleteProfile,
     updateActiveResume,
+    undoActiveResume,
   } = useResumeProfiles();
 
   return (
@@ -32,6 +34,8 @@ export function App(): ReactElement {
         onDuplicate={duplicateProfile}
         onRename={renameProfile}
         onDelete={deleteProfile}
+        canUndo={canUndo}
+        onUndo={undoActiveResume}
       />
       <div className="flex min-h-0 flex-1 flex-col overflow-y-auto lg:flex-row lg:overflow-hidden">
         <div className="min-h-0 flex-1 overflow-y-auto lg:border-r lg:border-slate-200">

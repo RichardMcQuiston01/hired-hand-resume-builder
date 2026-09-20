@@ -10,7 +10,19 @@ export default defineManifest({
   description:
     'Build and export ATS-compatible resumes. Part of the Hired Hand family of Chrome extensions.',
   version,
-  action: {},
+  icons: {
+    16: 'icons/icon16.png',
+    32: 'icons/icon32.png',
+    48: 'icons/icon48.png',
+    128: 'icons/icon128.png',
+  },
+  action: {
+    default_icon: {
+      16: 'icons/icon16.png',
+      32: 'icons/icon32.png',
+      48: 'icons/icon48.png',
+    },
+  },
   background: {
     service_worker: 'src/background/service-worker.ts',
     type: 'module',
