@@ -43,6 +43,10 @@ export function ProfileBar({
     setIsRenaming(false);
   }
 
+  function cancelRenaming(): void {
+    setIsRenaming(false);
+  }
+
   return (
     <div className="flex items-center gap-2 border-b border-slate-200 bg-slate-50 p-3">
       {isRenaming ? (
@@ -56,15 +60,18 @@ export function ProfileBar({
           onKeyDown={(event) => {
             if (event.key === 'Enter') {
               commitRename();
+            } else if (event.key === 'Escape') {
+              cancelRenaming();
             }
           }}
-          className="flex-1 rounded border border-slate-300 px-2 py-1 text-sm"
+          aria-label="Resume profile name"
+          className="flex-1 rounded border border-slate-300 px-2 py-1 text-sm focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500"
         />
       ) : (
         <select
           value={activeProfile.id}
           onChange={handleSelect}
-          className="flex-1 rounded border border-slate-300 px-2 py-1 text-sm"
+          className="flex-1 rounded border border-slate-300 px-2 py-1 text-sm focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500"
           aria-label="Active resume profile"
         >
           {profiles.map((profile) => (

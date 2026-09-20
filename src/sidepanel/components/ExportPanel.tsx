@@ -106,7 +106,11 @@ export function ExportPanel({ resume }: ExportPanelProps): ReactElement {
           </button>
         ))}
       </div>
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && (
+        <p role="alert" className="text-sm text-red-600">
+          {error}
+        </p>
+      )}
     </section>
   );
 }

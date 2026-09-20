@@ -42,11 +42,11 @@ export function AtsPanel({ resume }: AtsPanelProps): ReactElement {
           Structural checks
         </h3>
         {findings.length === 0 ? (
-          <p className="text-sm text-emerald-700">
+          <p aria-live="polite" className="text-sm text-emerald-700">
             No structural issues found.
           </p>
         ) : (
-          <ul className="flex flex-col gap-1">
+          <ul aria-live="polite" className="flex flex-col gap-1">
             {findings.map((finding) => (
               <li
                 key={finding.id}
@@ -71,7 +71,7 @@ export function AtsPanel({ resume }: AtsPanelProps): ReactElement {
           rows={5}
         />
         {keywordResult && (
-          <div className="flex flex-col gap-1 text-sm">
+          <div aria-live="polite" className="flex flex-col gap-1 text-sm">
             <p className="font-medium">
               Match score: {keywordResult.score}% (
               {keywordResult.matched.length}/

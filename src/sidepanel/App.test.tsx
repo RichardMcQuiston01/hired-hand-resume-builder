@@ -57,6 +57,26 @@ describe('App', () => {
     expect(screen.getByLabelText(/company/i)).toBeInTheDocument();
   });
 
+  it('cancels a profile rename on Escape without committing it', async () => {
+    render(<App />);
+    await flushLoad();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Rename' }));
+    const renameInput = screen.getByLabelText('Resume profile name');
+    fireEvent.change(renameInput, { target: { value: 'Should not save' } });
+    fireEvent.keyDown(renameInput, { key: 'Escape' });
+
+    expect(
+      screen.queryByLabelText('Resume profile name'),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('option', { name: 'My Resume' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole('option', { name: 'Should not save' }),
+    ).not.toBeInTheDocument();
+  });
+
   it('creates a new profile from the profile bar', async () => {
     render(<App />);
     await flushLoad();

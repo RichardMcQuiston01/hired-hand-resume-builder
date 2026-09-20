@@ -17,6 +17,9 @@ out/
 # ---- Testing / coverage ----
 coverage/
 .nyc_output/
+test-results/
+playwright-report/
+/playwright/.cache/
 
 # ---- Environment / secrets ----
 .env

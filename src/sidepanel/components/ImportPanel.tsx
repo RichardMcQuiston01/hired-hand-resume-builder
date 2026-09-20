@@ -49,13 +49,6 @@ export function ImportPanel({ onImport }: ImportPanelProps): ReactElement {
     <section className="flex flex-col gap-3 border-t border-slate-200 p-4">
       <h2 className="text-base font-semibold text-slate-900">Import</h2>
       <div>
-        <label
-          htmlFor={inputId}
-          className="inline-block cursor-pointer rounded border border-slate-300 px-3 py-1 text-sm font-medium text-slate-700 hover:bg-slate-50 aria-disabled:cursor-not-allowed aria-disabled:text-slate-400"
-          aria-disabled={isImporting}
-        >
-          {isImporting ? 'Importing…' : 'Import JSON'}
-        </label>
         <input
           id={inputId}
           type="file"
@@ -64,10 +57,21 @@ export function ImportPanel({ onImport }: ImportPanelProps): ReactElement {
           onChange={(event) => {
             void handleFileChange(event);
           }}
-          className="sr-only"
+          className="peer sr-only"
         />
+        <label
+          htmlFor={inputId}
+          className="inline-block cursor-pointer rounded border border-slate-300 px-3 py-1 text-sm font-medium text-slate-700 hover:bg-slate-50 peer-focus-visible:ring-2 peer-focus-visible:ring-slate-500 aria-disabled:cursor-not-allowed aria-disabled:text-slate-400"
+          aria-disabled={isImporting}
+        >
+          {isImporting ? 'Importing…' : 'Import JSON'}
+        </label>
       </div>
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && (
+        <p role="alert" className="text-sm text-red-600">
+          {error}
+        </p>
+      )}
     </section>
   );
 }
