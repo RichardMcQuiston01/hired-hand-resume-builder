@@ -22,6 +22,7 @@
     "ci": "npm run lint && npm run typecheck && npm run test && npm run build"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "0.127.0",
     "docx": "9.7.1",
     "pdf-lib": "1.17.1",
     "react": "19.3.0",

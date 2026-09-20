@@ -24,7 +24,7 @@ const SCREENSHOT_PATH = path.resolve(
 // than Playwright's 1280x720 tab default) is what caught a real bug: two-up
 // field rows (Company/Title, Start/End date) overflowed it horizontally
 // before TextField grew a `min-w-0`.
-const SIDE_PANEL_VIEWPORT = { width: 380, height: 1800 };
+const SIDE_PANEL_VIEWPORT = { width: 380, height: 2600 };
 
 let context: BrowserContext;
 let sidePanelUrl: string;

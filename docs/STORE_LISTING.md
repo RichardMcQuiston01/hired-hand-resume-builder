@@ -31,9 +31,13 @@ the Chrome Web Store. See ROADMAP.md Stage 7.
 >   rather than a flattened image.
 > - **Import** — bring a previously exported JSON resume back in as a new
 >   profile.
+> - **AI Suggestions (optional)** — bring your own Anthropic API key to get
+>   AI-assisted summary/bullet rewrites and keyword-gap suggestions against
+>   a target job description. Off by default; your resume content is only
+>   ever sent to Anthropic when you click a suggestion button.
 > - **Private by design** — everything is stored locally in your browser
->   via `chrome.storage.local`. Nothing is ever uploaded; the extension
->   makes no network requests at all. See the
+>   via `chrome.storage.local`. Nothing is uploaded and no network request
+>   is made unless you opt into AI Suggestions and use it. See the
 >   [privacy policy](./PRIVACY_POLICY.md).
 >
 > Part of the Hired Hand family of Chrome extensions.
@@ -57,7 +61,7 @@ the Chrome Web Store. See ROADMAP.md Stage 7.
 `e2e/extension.spec.ts`'s Chromium smoke test captures a raw UI screenshot
 of the builder at real side-panel width to
 `store-assets/screenshots/side-panel.png` on every run (`npm run test:e2e`).
-That capture is a 380×1800 source image, not a store-ready asset — it still
+That capture is a 380×2600 source image, not a store-ready asset — it still
 needs to be composited (e.g. cropped/padded onto a 1280×800 or 640×400
 canvas, optionally with a browser chrome frame) into 1–5 final listing
 screenshots. That compositing is a design task, not something this repo
@@ -74,7 +78,10 @@ from this repository:
    rendered directly from the repo) and use that URL in the listing.
 4. Upload a packaged build (`npm run build`, then zip the `dist/` output)
    to the dashboard along with the listing copy and assets above.
-5. Fill out the Data Safety / permissions justification form — this
-   extension's answer is short, since it requests only `storage` and
-   `sidePanel` and makes no network requests (see the privacy policy).
+5. Fill out the Data Safety / permissions justification form. Base case:
+   only `storage` and `sidePanel`, no network requests. With AI Suggestions
+   disclosed: resume text the user explicitly submits is sent to a third
+   party (Anthropic) using the user's own API key, only on user action —
+   see the privacy policy's [AI Suggestions](./PRIVACY_POLICY.md#ai-suggestions-opt-in)
+   section for the exact wording to reuse in the form.
 6. Submit for review.
