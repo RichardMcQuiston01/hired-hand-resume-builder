@@ -145,6 +145,32 @@ npm run test:e2e
 npm run build
 ```
 
+### Releasing
+
+Pushing a tag matching `v*.*.*` (e.g. `v0.2.0`) runs the
+[deploy workflow](./.github/workflows/deploy.yml): it re-validates the
+project (lint/format/typecheck/test/build/e2e), then uploads and publishes
+the build to the Chrome Web Store using
+[`chrome-webstore-upload-cli`](https://github.com/fregante/chrome-webstore-upload-cli).
+The workflow fails fast if the tag doesn't match `package.json`'s
+`version`. It can also be run manually from the Actions tab
+(`workflow_dispatch`), which skips that version check.
+
+It needs these repository secrets, from a Google Cloud OAuth client
+authorized for the Chrome Web Store API (see
+[the setup guide](https://github.com/fregante/chrome-webstore-upload-keys)):
+
+| Secret                 | What it is                                                                                                                              |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `CHROME_EXTENSION_ID`  | The extension's ID, assigned after the first manual upload to the [Developer Dashboard](https://chrome.google.com/webstore/devconsole). |
+| `CHROME_CLIENT_ID`     | OAuth2 client ID.                                                                                                                       |
+| `CHROME_CLIENT_SECRET` | OAuth2 client secret.                                                                                                                   |
+| `CHROME_REFRESH_TOKEN` | OAuth2 refresh token.                                                                                                                   |
+| `CHROME_PUBLISHER_ID`  | The Chrome Web Store publisher (developer account) ID.                                                                                  |
+
+To cut a release: bump `version` in `package.json`, commit, then
+`git tag v<version> && git push origin v<version>`.
+
 See [ROADMAP.md](./ROADMAP.md) for what's next.
 
 ## Buy Me a Coffee
