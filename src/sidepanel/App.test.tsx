@@ -32,6 +32,10 @@ async function flushLoad(): Promise<void> {
   });
 }
 
+function openSettings(): void {
+  fireEvent.click(screen.getByRole('button', { name: 'Settings' }));
+}
+
 beforeEach(() => {
   installFakeChromeStorage();
   createMessageMock.mockReset();
@@ -167,7 +171,8 @@ describe('App', () => {
     render(<App />);
     await flushLoad();
 
-    fireEvent.click(screen.getByRole('button', { name: 'TXT' }));
+    fireEvent.click(screen.getByRole('checkbox', { name: 'TXT' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Download' }));
 
     await waitFor(() => {
       expect(createObjectURL).toHaveBeenCalledOnce();
@@ -231,6 +236,7 @@ describe('App', () => {
   it('shows an API key setup form until AI suggestions are configured', async () => {
     render(<App />);
     await flushLoad();
+    openSettings();
 
     expect(screen.getByLabelText('Anthropic API key')).toBeInTheDocument();
     expect(
@@ -241,6 +247,7 @@ describe('App', () => {
   it('unlocks AI suggestion actions after saving an API key', async () => {
     render(<App />);
     await flushLoad();
+    openSettings();
 
     fireEvent.change(screen.getByLabelText('Anthropic API key'), {
       target: { value: 'sk-ant-test-key' },
@@ -264,6 +271,7 @@ describe('App', () => {
 
     render(<App />);
     await flushLoad();
+    openSettings();
 
     fireEvent.change(screen.getByLabelText('Anthropic API key'), {
       target: { value: 'sk-ant-test-key' },

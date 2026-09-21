@@ -3,7 +3,7 @@ import type { ReactElement } from 'react';
 import type { SkillGroup } from '../../../lib/resume';
 import { createBlankSkillGroup } from '../../../lib/resume';
 import { RepeatingSection } from '../RepeatingSection';
-import { StringListField } from '../ui/StringListField';
+import { TagInputField } from '../ui/TagInputField';
 import { TextField } from '../ui/TextField';
 
 interface SkillsSectionProps {
@@ -34,7 +34,7 @@ export function SkillsSection({
               onGroupChange({ ...group, category });
             }}
           />
-          <StringListField
+          <TagInputField
             label="Skills"
             items={group.skills}
             placeholder="TypeScript"

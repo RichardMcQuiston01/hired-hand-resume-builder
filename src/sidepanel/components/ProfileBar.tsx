@@ -48,7 +48,7 @@ export function ProfileBar({
   }
 
   return (
-    <div className="flex items-center gap-2 border-b border-slate-200 bg-slate-50 p-3">
+    <div className="flex flex-wrap items-center gap-2 border-b border-border-subtle bg-surface-50 p-3">
       {isRenaming ? (
         <input
           autoFocus
@@ -65,13 +65,13 @@ export function ProfileBar({
             }
           }}
           aria-label="Resume profile name"
-          className="flex-1 rounded border border-slate-300 px-2 py-1 text-sm focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500"
+          className="flex-1 rounded border border-border-subtle px-2 py-1 text-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500"
         />
       ) : (
         <select
           value={activeProfile.id}
           onChange={handleSelect}
-          className="flex-1 rounded border border-slate-300 px-2 py-1 text-sm focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500"
+          className="flex-1 rounded border border-border-subtle px-2 py-1 text-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500"
           aria-label="Active resume profile"
         >
           {profiles.map((profile) => (
@@ -85,21 +85,21 @@ export function ProfileBar({
         type="button"
         disabled={!canUndo}
         onClick={onUndo}
-        className="text-xs font-medium text-slate-600 hover:underline disabled:cursor-not-allowed disabled:text-slate-400 disabled:no-underline"
+        className="text-xs font-medium text-ink-600 hover:underline disabled:cursor-not-allowed disabled:text-ink-400 disabled:no-underline"
       >
         Undo
       </button>
       <button
         type="button"
         onClick={startRenaming}
-        className="text-xs font-medium text-slate-600 hover:underline"
+        className="text-xs font-medium text-ink-600 hover:underline"
       >
         Rename
       </button>
       <button
         type="button"
         onClick={onCreate}
-        className="text-xs font-medium text-slate-600 hover:underline"
+        className="text-xs font-medium text-accent-600 hover:underline"
       >
         New
       </button>
@@ -108,7 +108,7 @@ export function ProfileBar({
         onClick={() => {
           onDuplicate(activeProfile.id);
         }}
-        className="text-xs font-medium text-slate-600 hover:underline"
+        className="text-xs font-medium text-ink-600 hover:underline"
       >
         Duplicate
       </button>
@@ -118,7 +118,7 @@ export function ProfileBar({
         onClick={() => {
           onDelete(activeProfile.id);
         }}
-        className="text-xs font-medium text-red-600 hover:underline disabled:cursor-not-allowed disabled:text-slate-400 disabled:no-underline"
+        className="text-xs font-medium text-danger-600 hover:underline disabled:cursor-not-allowed disabled:text-ink-400 disabled:no-underline"
       >
         Delete
       </button>

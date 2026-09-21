@@ -30,7 +30,7 @@ export function StringListField({
 
   return (
     <div className="flex flex-col gap-2">
-      <span className="text-sm font-medium text-slate-700">{label}</span>
+      <span className="text-sm font-medium text-ink-900">{label}</span>
       {items.map((item, index) => (
         // Plain strings have no stable identity, so the index is the key.
         <div key={index} className="flex gap-2">
@@ -41,7 +41,7 @@ export function StringListField({
             }}
             placeholder={placeholder}
             aria-label={`${label} ${index + 1}`}
-            className="min-w-0 flex-1 rounded border border-slate-300 px-2 py-1 text-sm focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500"
+            className="min-w-0 flex-1 rounded border border-border-subtle px-2 py-1 text-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500"
           />
           <button
             type="button"
@@ -49,7 +49,7 @@ export function StringListField({
               handleRemove(index);
             }}
             aria-label={`Remove ${label} ${index + 1}`}
-            className="text-xs text-red-600 hover:underline"
+            className="text-xs text-danger-600 hover:underline"
           >
             Remove
           </button>
@@ -58,7 +58,7 @@ export function StringListField({
       <button
         type="button"
         onClick={handleAdd}
-        className="self-start text-xs font-medium text-slate-600 hover:underline"
+        className="self-start text-xs font-medium text-ink-600 hover:underline"
       >
         + Add
       </button>
