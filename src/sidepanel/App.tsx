@@ -7,6 +7,7 @@ import {
   KeywordMatchSection,
   StructuralChecksSection,
 } from './components/AtsPanel';
+import { DonateToast } from './components/DonateToast';
 import { ExportPanel } from './components/ExportPanel';
 import { ChevronUpIcon } from './components/icons';
 import { ImportPanel } from './components/ImportPanel';
@@ -15,6 +16,7 @@ import { ResumeForm } from './components/ResumeForm';
 import { ResumePreview } from './components/ResumePreview';
 import { SettingsPanel } from './components/SettingsPanel';
 import { useAiSettings } from './hooks/useAiSettings';
+import { useDonateToast } from './hooks/useDonateToast';
 import { useResumeProfiles } from './hooks/useResumeProfiles';
 
 const SCROLL_TOP_THRESHOLD = 200;
@@ -34,6 +36,7 @@ export function App(): ReactElement {
     undoActiveResume,
   } = useResumeProfiles();
   const { apiKey, saveApiKey, forgetApiKey } = useAiSettings();
+  const donateToast = useDonateToast();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [showGoToTop, setShowGoToTop] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
@@ -135,6 +138,7 @@ export function App(): ReactElement {
           </button>
         )}
       </div>
+      {donateToast.isVisible && <DonateToast onClose={donateToast.dismiss} />}
     </div>
   );
 }
