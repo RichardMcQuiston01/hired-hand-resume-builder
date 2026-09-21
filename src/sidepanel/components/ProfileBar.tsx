@@ -2,6 +2,10 @@ import { useState } from 'react';
 import type { ChangeEvent, ReactElement } from 'react';
 
 import type { ResumeProfile } from '../hooks/useResumeProfiles';
+import { CopyIcon, PencilIcon, PlusIcon, TrashIcon, UndoIcon } from './icons';
+
+const ICON_BUTTON_CLASS =
+  'shrink-0 rounded p-1.5 text-ink-600 hover:bg-surface-200 hover:text-ink-900 disabled:cursor-not-allowed disabled:text-ink-400 disabled:hover:bg-transparent';
 
 interface ProfileBarProps {
   profiles: ResumeProfile[];
@@ -85,32 +89,40 @@ export function ProfileBar({
         type="button"
         disabled={!canUndo}
         onClick={onUndo}
-        className="text-xs font-medium text-ink-600 hover:underline disabled:cursor-not-allowed disabled:text-ink-400 disabled:no-underline"
+        title="Undo"
+        aria-label="Undo"
+        className={ICON_BUTTON_CLASS}
       >
-        Undo
+        <UndoIcon />
       </button>
       <button
         type="button"
         onClick={startRenaming}
-        className="text-xs font-medium text-ink-600 hover:underline"
+        title="Rename"
+        aria-label="Rename"
+        className={ICON_BUTTON_CLASS}
       >
-        Rename
+        <PencilIcon />
       </button>
       <button
         type="button"
         onClick={onCreate}
-        className="text-xs font-medium text-accent-600 hover:underline"
+        title="New"
+        aria-label="New"
+        className={`${ICON_BUTTON_CLASS} text-accent-600 hover:text-accent-700`}
       >
-        New
+        <PlusIcon />
       </button>
       <button
         type="button"
         onClick={() => {
           onDuplicate(activeProfile.id);
         }}
-        className="text-xs font-medium text-ink-600 hover:underline"
+        title="Duplicate"
+        aria-label="Duplicate"
+        className={ICON_BUTTON_CLASS}
       >
-        Duplicate
+        <CopyIcon />
       </button>
       <button
         type="button"
@@ -118,9 +130,11 @@ export function ProfileBar({
         onClick={() => {
           onDelete(activeProfile.id);
         }}
-        className="text-xs font-medium text-danger-600 hover:underline disabled:cursor-not-allowed disabled:text-ink-400 disabled:no-underline"
+        title="Delete"
+        aria-label="Delete"
+        className={`${ICON_BUTTON_CLASS} text-danger-600 hover:bg-danger-100 hover:text-danger-600`}
       >
-        Delete
+        <TrashIcon />
       </button>
     </div>
   );

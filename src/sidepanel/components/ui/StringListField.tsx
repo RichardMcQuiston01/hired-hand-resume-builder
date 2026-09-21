@@ -1,5 +1,7 @@
 import type { ChangeEvent, ReactElement } from 'react';
 
+import { PlusIcon } from '../icons';
+
 interface StringListFieldProps {
   label: string;
   items: string[];
@@ -58,9 +60,10 @@ export function StringListField({
       <button
         type="button"
         onClick={handleAdd}
-        className="self-start text-xs font-medium text-ink-600 hover:underline"
+        className="flex items-center gap-1 self-end text-xs font-medium text-ink-600 hover:underline"
       >
-        + Add
+        <PlusIcon className="h-3 w-3" />
+        Add
       </button>
     </div>
   );

@@ -23,7 +23,7 @@ export function EducationSection({
       onChange={onChange}
       createItem={createBlankEducationEntry}
       getKey={(entry) => entry.id}
-      addLabel="+ Add school"
+      addLabel="Add school"
       collapsible={{
         isComplete: (entry) =>
           Boolean(entry.institution.trim() && entry.credential.trim()),

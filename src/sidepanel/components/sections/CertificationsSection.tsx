@@ -21,7 +21,7 @@ export function CertificationsSection({
       onChange={onChange}
       createItem={createBlankCertificationEntry}
       getKey={(entry) => entry.id}
-      addLabel="+ Add certification"
+      addLabel="Add certification"
       renderItem={(entry, onEntryChange) => (
         <>
           <div className="flex gap-3">

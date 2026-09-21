@@ -75,7 +75,7 @@ test('the resume builder loads and is usable at real side-panel width', async ()
     page.getByRole('heading', { name: 'Jordan Rivera', level: 1 }),
   ).toBeVisible();
 
-  await page.getByRole('button', { name: '+ Add job' }).click();
+  await page.getByRole('button', { name: 'Add job' }).click();
   await page.getByLabel(/^company/i).fill('Acme Corp');
   await expect(page.getByText('Acme Corp')).toBeVisible();
 
@@ -108,7 +108,7 @@ test('a TXT export triggers a real browser download', async () => {
 
   await page.getByLabel(/full name/i).fill('Jordan Rivera');
 
-  await page.getByRole('checkbox', { name: 'TXT' }).check();
+  await page.getByRole('button', { name: 'TXT' }).click();
   const [download] = await Promise.all([
     page.waitForEvent('download'),
     page.getByRole('button', { name: 'Download' }).click(),

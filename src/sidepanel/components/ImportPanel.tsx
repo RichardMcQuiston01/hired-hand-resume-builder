@@ -46,32 +46,29 @@ export function ImportPanel({ onImport }: ImportPanelProps): ReactElement {
   }
 
   return (
-    <section className="flex flex-col gap-3 border-t border-border-subtle p-4">
-      <h2 className="text-base font-semibold text-ink-900">Import</h2>
-      <div>
-        <input
-          id={inputId}
-          type="file"
-          accept="application/json,.json"
-          disabled={isImporting}
-          onChange={(event) => {
-            void handleFileChange(event);
-          }}
-          className="peer sr-only"
-        />
-        <label
-          htmlFor={inputId}
-          className="inline-block cursor-pointer rounded border border-border-subtle px-3 py-1 text-sm font-medium text-ink-900 hover:bg-surface-50 peer-focus-visible:ring-2 peer-focus-visible:ring-ink-400 aria-disabled:cursor-not-allowed aria-disabled:text-ink-400"
-          aria-disabled={isImporting}
-        >
-          {isImporting ? 'Importing…' : 'Import JSON'}
-        </label>
-      </div>
+    <div className="flex flex-col items-end gap-1">
+      <input
+        id={inputId}
+        type="file"
+        accept="application/json,.json"
+        disabled={isImporting}
+        onChange={(event) => {
+          void handleFileChange(event);
+        }}
+        className="peer sr-only"
+      />
+      <label
+        htmlFor={inputId}
+        className="inline-block cursor-pointer rounded border border-border-subtle px-3 py-1 text-sm font-medium text-ink-900 hover:bg-surface-50 peer-focus-visible:ring-2 peer-focus-visible:ring-ink-400 aria-disabled:cursor-not-allowed aria-disabled:text-ink-400"
+        aria-disabled={isImporting}
+      >
+        {isImporting ? 'Importing…' : 'Import JSON'}
+      </label>
       {error && (
         <p role="alert" className="text-sm text-danger-600">
           {error}
         </p>
       )}
-    </section>
+    </div>
   );
 }
