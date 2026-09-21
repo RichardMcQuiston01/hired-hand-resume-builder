@@ -67,47 +67,87 @@ const EXPORT_FORMATS: Record<string, ExportFormatConfig> = {
 };
 
 export function ExportPanel({ resume }: ExportPanelProps): ReactElement {
-  const [pendingFormat, setPendingFormat] = useState<string | null>(null);
+  const [selectedFormats, setSelectedFormats] = useState<Set<string>>(
+    () => new Set(),
+  );
+  const [isExporting, setIsExporting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function handleExport(
-    formatId: string,
-    config: ExportFormatConfig,
-  ): Promise<void> {
-    setError(null);
-    setPendingFormat(formatId);
+  function toggleFormat(formatId: string): void {
+    setSelectedFormats((prev) => {
+      const next = new Set(prev);
+      if (next.has(formatId)) {
+        next.delete(formatId);
+      } else {
+        next.add(formatId);
+      }
+      return next;
+    });
+  }
 
-    try {
-      const blob = await config.generate(resume);
-      downloadBlob(blob, `${resumeFileBaseName(resume)}.${config.extension}`);
-    } catch (exportError: unknown) {
-      console.error(`Failed to export resume as ${config.label}.`, exportError);
-      setError(`Failed to export as ${config.label}. Try again.`);
-    } finally {
-      setPendingFormat(null);
+  async function handleDownload(): Promise<void> {
+    if (selectedFormats.size === 0) {
+      return;
     }
+    setError(null);
+    setIsExporting(true);
+
+    const failedLabels: string[] = [];
+    for (const [formatId, config] of Object.entries(EXPORT_FORMATS)) {
+      if (!selectedFormats.has(formatId)) {
+        continue;
+      }
+      try {
+        const blob = await config.generate(resume);
+        downloadBlob(blob, `${resumeFileBaseName(resume)}.${config.extension}`);
+      } catch (exportError: unknown) {
+        console.error(
+          `Failed to export resume as ${config.label}.`,
+          exportError,
+        );
+        failedLabels.push(config.label);
+      }
+    }
+
+    if (failedLabels.length > 0) {
+      setError(`Failed to export as ${failedLabels.join(', ')}. Try again.`);
+    }
+    setIsExporting(false);
   }
 
   return (
-    <section className="flex flex-col gap-3 border-t border-slate-200 p-4">
-      <h2 className="text-base font-semibold text-slate-900">Export</h2>
-      <div className="flex flex-wrap gap-2">
+    <section className="flex flex-col gap-3 border-t border-border-subtle p-4">
+      <h2 className="text-base font-semibold text-ink-900">Export</h2>
+      <div className="flex flex-wrap gap-4">
         {Object.entries(EXPORT_FORMATS).map(([formatId, config]) => (
-          <button
+          <label
             key={formatId}
-            type="button"
-            disabled={pendingFormat !== null}
-            onClick={() => {
-              void handleExport(formatId, config);
-            }}
-            className="rounded border border-slate-300 px-3 py-1 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:cursor-not-allowed disabled:text-slate-400"
+            className="flex items-center gap-2 text-sm font-medium text-ink-900"
           >
-            {pendingFormat === formatId ? 'Exporting…' : config.label}
-          </button>
+            <input
+              type="checkbox"
+              checked={selectedFormats.has(formatId)}
+              onChange={() => {
+                toggleFormat(formatId);
+              }}
+              className="h-4 w-4 rounded border-border-subtle text-brand-500 focus:ring-2 focus:ring-brand-500"
+            />
+            {config.label}
+          </label>
         ))}
       </div>
+      <button
+        type="button"
+        disabled={isExporting || selectedFormats.size === 0}
+        onClick={() => {
+          void handleDownload();
+        }}
+        className="self-start rounded bg-accent-600 px-3 py-1 text-sm font-medium text-on-accent hover:bg-accent-700 disabled:cursor-not-allowed disabled:bg-surface-200 disabled:text-ink-400"
+      >
+        {isExporting ? 'Downloading…' : 'Download'}
+      </button>
       {error && (
-        <p role="alert" className="text-sm text-red-600">
+        <p role="alert" className="text-sm text-danger-600">
           {error}
         </p>
       )}

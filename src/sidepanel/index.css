@@ -1,1 +1,47 @@
 @import 'tailwindcss';
+
+/*
+ * Brand palette shared with the Hired Hand family (see
+ * hired-hand-extension's tailwind.config.ts for the source of truth) so
+ * every Hired Hand extension looks and feels consistent.
+ */
+@theme {
+  --font-sans: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+
+  --color-brand-900: #0b3444;
+  --color-brand-700: #1b4e60;
+  --color-brand-500: #2c6478;
+  --color-brand-300: #6fa0b4;
+  --color-brand-100: #e4eef1;
+
+  --color-accent-600: #f97316;
+  --color-accent-700: #c2570c;
+  --color-accent-100: #ffe9d6;
+
+  --color-on-accent: #0b3444;
+
+  --color-surface-50: #f7fafb;
+  --color-surface-100: #ffffff;
+  --color-surface-200: #eef3f5;
+
+  --color-border-subtle: #dce6ea;
+
+  --color-ink-900: #0f2a35;
+  --color-ink-600: #4b6672;
+  --color-ink-400: #7e97a0;
+
+  --color-success-600: #1f8a5c;
+  --color-success-100: #e1f5ec;
+  --color-danger-600: #d5393e;
+  --color-danger-100: #fceaea;
+  --color-warning-600: #b4790c;
+  --color-warning-100: #fbf1da;
+  --color-info-600: #2c6478;
+  --color-info-100: #e4eef1;
+}
+
+body {
+  font-family: var(--font-sans);
+}

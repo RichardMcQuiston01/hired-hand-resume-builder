@@ -48,7 +48,7 @@ export function createBlankEducationEntry(): EducationEntry {
 }
 
 export function createBlankSkillGroup(): SkillGroup {
-  return { id: createId(), category: '', skills: [''] };
+  return { id: createId(), category: '', skills: [] };
 }
 
 export function createBlankCertificationEntry(): CertificationEntry {

@@ -13,7 +13,7 @@ export function SummarySection({
 }: SummarySectionProps): ReactElement {
   return (
     <section className="flex flex-col gap-3">
-      <h2 className="text-base font-semibold text-slate-900">Summary</h2>
+      <h2 className="text-base font-semibold text-ink-900">Summary</h2>
       <TextAreaField
         label="Professional summary"
         value={summary ?? ''}

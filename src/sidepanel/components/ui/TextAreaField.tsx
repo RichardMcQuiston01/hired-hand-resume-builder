@@ -21,13 +21,13 @@ export function TextAreaField({
 
   return (
     <label className="flex flex-col gap-1 text-sm">
-      <span className="font-medium text-slate-700">{label}</span>
+      <span className="font-medium text-ink-900">{label}</span>
       <textarea
         value={value}
         onChange={handleChange}
         placeholder={placeholder}
         rows={rows}
-        className="rounded border border-slate-300 px-2 py-1 text-sm focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500"
+        className="rounded border border-border-subtle px-2 py-1 text-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500"
       />
     </label>
   );

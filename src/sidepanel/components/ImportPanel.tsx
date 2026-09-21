@@ -46,8 +46,8 @@ export function ImportPanel({ onImport }: ImportPanelProps): ReactElement {
   }
 
   return (
-    <section className="flex flex-col gap-3 border-t border-slate-200 p-4">
-      <h2 className="text-base font-semibold text-slate-900">Import</h2>
+    <section className="flex flex-col gap-3 border-t border-border-subtle p-4">
+      <h2 className="text-base font-semibold text-ink-900">Import</h2>
       <div>
         <input
           id={inputId}
@@ -61,14 +61,14 @@ export function ImportPanel({ onImport }: ImportPanelProps): ReactElement {
         />
         <label
           htmlFor={inputId}
-          className="inline-block cursor-pointer rounded border border-slate-300 px-3 py-1 text-sm font-medium text-slate-700 hover:bg-slate-50 peer-focus-visible:ring-2 peer-focus-visible:ring-slate-500 aria-disabled:cursor-not-allowed aria-disabled:text-slate-400"
+          className="inline-block cursor-pointer rounded border border-border-subtle px-3 py-1 text-sm font-medium text-ink-900 hover:bg-surface-50 peer-focus-visible:ring-2 peer-focus-visible:ring-ink-400 aria-disabled:cursor-not-allowed aria-disabled:text-ink-400"
           aria-disabled={isImporting}
         >
           {isImporting ? 'Importing…' : 'Import JSON'}
         </label>
       </div>
       {error && (
-        <p role="alert" className="text-sm text-red-600">
+        <p role="alert" className="text-sm text-danger-600">
           {error}
         </p>
       )}

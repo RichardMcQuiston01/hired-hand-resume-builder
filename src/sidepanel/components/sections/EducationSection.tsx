@@ -24,6 +24,16 @@ export function EducationSection({
       createItem={createBlankEducationEntry}
       getKey={(entry) => entry.id}
       addLabel="+ Add school"
+      collapsible={{
+        isComplete: (entry) =>
+          Boolean(entry.institution.trim() && entry.credential.trim()),
+        renderSummary: (entry) => (
+          <span>
+            <span className="font-medium">{entry.institution}</span>
+            {entry.credential && ` · ${entry.credential}`}
+          </span>
+        ),
+      }}
       renderItem={(entry, onEntryChange) => (
         <>
           <div className="flex gap-3">

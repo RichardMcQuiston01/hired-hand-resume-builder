@@ -24,6 +24,20 @@ export function ExperienceSection({
       createItem={createBlankExperienceEntry}
       getKey={(entry) => entry.id}
       addLabel="+ Add job"
+      collapsible={{
+        isComplete: (entry) =>
+          Boolean(
+            entry.company.trim() &&
+            entry.title.trim() &&
+            entry.startDate.trim(),
+          ),
+        renderSummary: (entry) => (
+          <span>
+            <span className="font-medium">{entry.title}</span>
+            {entry.company && ` · ${entry.company}`}
+          </span>
+        ),
+      }}
       renderItem={(entry, onEntryChange) => (
         <>
           <div className="flex gap-3">

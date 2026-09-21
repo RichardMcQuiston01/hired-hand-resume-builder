@@ -20,16 +20,16 @@ export function ResumePreview({ resume }: ResumePreviewProps): ReactElement {
   const { contact } = resume;
 
   return (
-    <article className="flex flex-col gap-4 bg-white p-4 text-slate-900">
+    <article className="flex flex-col gap-4 bg-white p-4 text-ink-900">
       <header className="flex flex-col gap-1">
         <h1 className="text-xl font-bold">{contact.fullName || 'Your Name'}</h1>
-        <p className="text-sm text-slate-600">
+        <p className="text-sm text-ink-600">
           {[contact.email, contact.phone, contact.location]
             .filter(Boolean)
             .join(' · ')}
         </p>
         {contact.links.length > 0 && (
-          <p className="text-sm text-slate-600">
+          <p className="text-sm text-ink-600">
             {contact.links
               .map((link) => link.label || link.url)
               .filter(Boolean)
@@ -40,7 +40,7 @@ export function ResumePreview({ resume }: ResumePreviewProps): ReactElement {
 
       {resume.summary && (
         <section className="flex flex-col gap-1">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-ink-400">
             Summary
           </h2>
           <p className="text-sm">{resume.summary}</p>
@@ -49,7 +49,7 @@ export function ResumePreview({ resume }: ResumePreviewProps): ReactElement {
 
       {resume.experience.length > 0 && (
         <section className="flex flex-col gap-2">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-ink-400">
             Experience
           </h2>
           {resume.experience.map((entry) => (
@@ -59,7 +59,7 @@ export function ResumePreview({ resume }: ResumePreviewProps): ReactElement {
                   {entry.title || 'Title'}
                   {entry.company ? ` · ${entry.company}` : ''}
                 </p>
-                <p className="shrink-0 text-xs text-slate-500">
+                <p className="shrink-0 text-xs text-ink-400">
                   {formatDateRange(
                     entry.startDate,
                     entry.endDate,
@@ -83,7 +83,7 @@ export function ResumePreview({ resume }: ResumePreviewProps): ReactElement {
 
       {resume.education.length > 0 && (
         <section className="flex flex-col gap-2">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-ink-400">
             Education
           </h2>
           {resume.education.map((entry) => (
@@ -95,7 +95,7 @@ export function ResumePreview({ resume }: ResumePreviewProps): ReactElement {
                 {entry.credential || 'Credential'}
                 {entry.institution ? ` · ${entry.institution}` : ''}
               </p>
-              <p className="shrink-0 text-xs text-slate-500">
+              <p className="shrink-0 text-xs text-ink-400">
                 {formatDateRange(
                   entry.startDate,
                   entry.endDate,
@@ -109,7 +109,7 @@ export function ResumePreview({ resume }: ResumePreviewProps): ReactElement {
 
       {resume.skills.length > 0 && (
         <section className="flex flex-col gap-1">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-ink-400">
             Skills
           </h2>
           {resume.skills.map((group) => (
@@ -125,7 +125,7 @@ export function ResumePreview({ resume }: ResumePreviewProps): ReactElement {
 
       {resume.certifications.length > 0 && (
         <section className="flex flex-col gap-1">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-ink-400">
             Certifications
           </h2>
           {resume.certifications.map((entry) => (
@@ -140,7 +140,7 @@ export function ResumePreview({ resume }: ResumePreviewProps): ReactElement {
 
       {resume.projects.length > 0 && (
         <section className="flex flex-col gap-2">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-ink-400">
             Projects
           </h2>
           {resume.projects.map((entry) => (

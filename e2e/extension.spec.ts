@@ -108,9 +108,10 @@ test('a TXT export triggers a real browser download', async () => {
 
   await page.getByLabel(/full name/i).fill('Jordan Rivera');
 
+  await page.getByRole('checkbox', { name: 'TXT' }).check();
   const [download] = await Promise.all([
     page.waitForEvent('download'),
-    page.getByRole('button', { name: 'TXT' }).click(),
+    page.getByRole('button', { name: 'Download' }).click(),
   ]);
 
   expect(download.suggestedFilename()).toMatch(/\.txt$/);

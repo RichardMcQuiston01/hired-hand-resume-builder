@@ -16,7 +16,7 @@ interface AtsPanelProps {
 const SEVERITY_STYLES: Record<AtsFindingSeverity, string> = {
   error: 'border-red-200 bg-red-50 text-red-800',
   warning: 'border-amber-200 bg-amber-50 text-amber-800',
-  info: 'border-slate-200 bg-slate-50 text-slate-700',
+  info: 'border-border-subtle bg-surface-50 text-ink-900',
 };
 
 const MAX_MISSING_KEYWORDS_SHOWN = 20;
@@ -34,11 +34,11 @@ export function AtsPanel({ resume }: AtsPanelProps): ReactElement {
   );
 
   return (
-    <section className="flex flex-col gap-4 border-t border-slate-200 p-4">
-      <h2 className="text-base font-semibold text-slate-900">ATS Check</h2>
+    <section className="flex flex-col gap-4 border-t border-border-subtle p-4">
+      <h2 className="text-base font-semibold text-ink-900">ATS Check</h2>
 
       <div className="flex flex-col gap-2">
-        <h3 className="text-sm font-semibold text-slate-700">
+        <h3 className="text-sm font-semibold text-ink-900">
           Structural checks
         </h3>
         {findings.length === 0 ? (
@@ -60,7 +60,7 @@ export function AtsPanel({ resume }: AtsPanelProps): ReactElement {
       </div>
 
       <div className="flex flex-col gap-2">
-        <h3 className="text-sm font-semibold text-slate-700">
+        <h3 className="text-sm font-semibold text-ink-900">
           Keyword match against a job description
         </h3>
         <TextAreaField
@@ -79,7 +79,7 @@ export function AtsPanel({ resume }: AtsPanelProps): ReactElement {
               keywords)
             </p>
             {keywordResult.missing.length > 0 && (
-              <p className="text-slate-600">
+              <p className="text-ink-600">
                 Missing:{' '}
                 {keywordResult.missing
                   .slice(0, MAX_MISSING_KEYWORDS_SHOWN)
