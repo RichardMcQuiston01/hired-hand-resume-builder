@@ -1,6 +1,6 @@
 {
   "name": "hired-hand-resume-builder",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "description": "TypeScript based Chrome Extension that allows users to build and export ATS compatible resumes.",
   "license": "Apache-2.0",
