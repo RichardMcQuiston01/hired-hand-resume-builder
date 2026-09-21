@@ -10,6 +10,7 @@ import { exportResumeAsJson } from '../../lib/export/toJson';
 import { exportResumeAsPlainText } from '../../lib/export/toPlainText';
 import type { Resume } from '../../lib/resume';
 import { downloadBlob } from '../utils/downloadBlob';
+import { DownloadIcon } from './icons';
 
 interface ExportPanelProps {
   resume: Resume;
@@ -116,25 +117,29 @@ export function ExportPanel({ resume }: ExportPanelProps): ReactElement {
   }
 
   return (
-    <section className="flex flex-col gap-3 border-t border-border-subtle p-4">
-      <h2 className="text-base font-semibold text-ink-900">Export</h2>
-      <div className="flex flex-wrap gap-4">
-        {Object.entries(EXPORT_FORMATS).map(([formatId, config]) => (
-          <label
-            key={formatId}
-            className="flex items-center gap-2 text-sm font-medium text-ink-900"
-          >
-            <input
-              type="checkbox"
-              checked={selectedFormats.has(formatId)}
-              onChange={() => {
+    <div className="flex flex-col gap-3">
+      <h3 className="text-sm font-semibold text-ink-900">Export</h3>
+      <div className="flex flex-wrap gap-2">
+        {Object.entries(EXPORT_FORMATS).map(([formatId, config]) => {
+          const isSelected = selectedFormats.has(formatId);
+          return (
+            <button
+              key={formatId}
+              type="button"
+              aria-pressed={isSelected}
+              onClick={() => {
                 toggleFormat(formatId);
               }}
-              className="h-4 w-4 rounded border-border-subtle text-brand-500 focus:ring-2 focus:ring-brand-500"
-            />
-            {config.label}
-          </label>
-        ))}
+              className={
+                isSelected
+                  ? 'rounded-full border border-brand-500 bg-brand-500 px-3 py-1 text-sm font-medium text-white'
+                  : 'rounded-full border border-border-subtle px-3 py-1 text-sm font-medium text-ink-900 hover:border-brand-500'
+              }
+            >
+              {config.label}
+            </button>
+          );
+        })}
       </div>
       <button
         type="button"
@@ -142,8 +147,9 @@ export function ExportPanel({ resume }: ExportPanelProps): ReactElement {
         onClick={() => {
           void handleDownload();
         }}
-        className="self-start rounded bg-accent-600 px-3 py-1 text-sm font-medium text-on-accent hover:bg-accent-700 disabled:cursor-not-allowed disabled:bg-surface-200 disabled:text-ink-400"
+        className="flex w-full items-center justify-center gap-2 rounded bg-accent-600 px-3 py-2 text-sm font-medium text-on-accent hover:bg-accent-700 disabled:cursor-not-allowed disabled:bg-surface-200 disabled:text-ink-400"
       >
+        <DownloadIcon />
         {isExporting ? 'Downloading…' : 'Download'}
       </button>
       {error && (
@@ -151,6 +157,6 @@ export function ExportPanel({ resume }: ExportPanelProps): ReactElement {
           {error}
         </p>
       )}
-    </section>
+    </div>
   );
 }

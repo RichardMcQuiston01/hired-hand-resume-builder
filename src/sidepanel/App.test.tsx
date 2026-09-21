@@ -70,7 +70,7 @@ describe('App', () => {
 
     expect(screen.queryByLabelText(/company/i)).not.toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('button', { name: '+ Add job' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Add job' }));
 
     expect(screen.getByLabelText(/company/i)).toBeInTheDocument();
   });
@@ -146,7 +146,7 @@ describe('App', () => {
     fireEvent.change(screen.getByLabelText(/full name/i), {
       target: { value: 'Jordan Rivera' },
     });
-    fireEvent.click(screen.getByRole('button', { name: '+ Add job' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Add job' }));
     fireEvent.change(screen.getByLabelText(/^company/i), {
       target: { value: 'Acme Corp' },
     });
@@ -171,7 +171,7 @@ describe('App', () => {
     render(<App />);
     await flushLoad();
 
-    fireEvent.click(screen.getByRole('checkbox', { name: 'TXT' }));
+    fireEvent.click(screen.getByRole('button', { name: 'TXT' }));
     fireEvent.click(screen.getByRole('button', { name: 'Download' }));
 
     await waitFor(() => {

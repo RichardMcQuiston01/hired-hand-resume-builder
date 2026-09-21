@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { KeyboardEvent, ReactElement } from 'react';
 
 import { createBlankLink, type Link } from '../../lib/resume';
-import { PencilIcon } from './icons';
+import { CheckboxIcon, PencilIcon, PlusIcon } from './icons';
 import { TextField } from './ui/TextField';
 
 interface LinksFieldProps {
@@ -112,18 +112,17 @@ export function LinksField({ links, onChange }: LinksFieldProps): ReactElement {
                   handleUrlKeyDown(event, link);
                 }}
               />
-              <label className="flex shrink-0 flex-col items-center gap-1 text-xs text-ink-600">
-                Save
-                <input
-                  type="checkbox"
-                  checked={false}
-                  onChange={() => {
-                    collapse(link);
-                  }}
-                  aria-label={`Save link ${index + 1}`}
-                  className="h-4 w-4 rounded border-border-subtle text-brand-500 focus:ring-2 focus:ring-brand-500"
-                />
-              </label>
+              <button
+                type="button"
+                onClick={() => {
+                  collapse(link);
+                }}
+                title="Save link"
+                aria-label={`Save link ${index + 1}`}
+                className="shrink-0 rounded p-1 text-ink-600 hover:bg-surface-200 hover:text-brand-500"
+              >
+                <CheckboxIcon />
+              </button>
             </div>
             <button
               type="button"
@@ -141,9 +140,10 @@ export function LinksField({ links, onChange }: LinksFieldProps): ReactElement {
       <button
         type="button"
         onClick={addLink}
-        className="self-start rounded bg-accent-600 px-3 py-1 text-sm font-medium text-on-accent hover:bg-accent-700"
+        className="flex items-center gap-1 self-end rounded bg-accent-600 px-3 py-1 text-sm font-medium text-on-accent hover:bg-accent-700"
       >
-        + Add link
+        <PlusIcon className="h-3.5 w-3.5" />
+        Add link
       </button>
     </div>
   );

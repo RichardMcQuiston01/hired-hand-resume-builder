@@ -1,9 +1,14 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import type { ReactElement } from 'react';
 
+import { AccordionSection } from './components/AccordionSection';
 import { AiPanel } from './components/AiPanel';
-import { AtsPanel } from './components/AtsPanel';
+import {
+  KeywordMatchSection,
+  StructuralChecksSection,
+} from './components/AtsPanel';
 import { ExportPanel } from './components/ExportPanel';
+import { ChevronUpIcon } from './components/icons';
 import { ImportPanel } from './components/ImportPanel';
 import { ProfileBar } from './components/ProfileBar';
 import { ResumeForm } from './components/ResumeForm';
@@ -11,6 +16,8 @@ import { ResumePreview } from './components/ResumePreview';
 import { SettingsPanel } from './components/SettingsPanel';
 import { useAiSettings } from './hooks/useAiSettings';
 import { useResumeProfiles } from './hooks/useResumeProfiles';
+
+const SCROLL_TOP_THRESHOLD = 200;
 
 export function App(): ReactElement {
   const {
@@ -28,9 +35,19 @@ export function App(): ReactElement {
   } = useResumeProfiles();
   const { apiKey, saveApiKey, forgetApiKey } = useAiSettings();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [showGoToTop, setShowGoToTop] = useState(false);
+  const mainRef = useRef<HTMLElement>(null);
+
+  function handleMainScroll(): void {
+    setShowGoToTop((mainRef.current?.scrollTop ?? 0) > SCROLL_TOP_THRESHOLD);
+  }
+
+  function scrollToTop(): void {
+    mainRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   return (
-    <div className="flex h-screen w-full flex-col bg-surface-100 font-sans text-ink-900">
+    <div className="flex h-full w-full flex-col overflow-hidden bg-surface-100 font-sans text-ink-900">
       <header className="flex items-center justify-between gap-2 bg-brand-900 p-3 text-white">
         <h1 className="min-w-0 truncate font-display text-lg font-semibold tracking-wide">
           Hired Hand: Resume Builder
@@ -67,29 +84,57 @@ export function App(): ReactElement {
         canUndo={canUndo}
         onUndo={undoActiveResume}
       />
-      <main className="flex min-h-0 flex-1 flex-col overflow-y-auto">
-        <div className="flex flex-col lg:flex-row">
-          <div className="lg:flex-1 lg:border-r lg:border-border-subtle">
+      <div className="relative min-h-0 flex-1">
+        <main
+          ref={mainRef}
+          onScroll={handleMainScroll}
+          className="h-full overflow-y-auto"
+        >
+          <AccordionSection
+            title="Resume Editor"
+            headerAction={<ImportPanel onImport={importProfile} />}
+          >
             <ResumeForm
               resume={activeProfile.resume}
               onChange={updateActiveResume}
             />
-          </div>
-          <div className="lg:flex-1">
+          </AccordionSection>
+
+          <AccordionSection title="Resume Preview">
+            <ExportPanel resume={activeProfile.resume} />
             <ResumePreview resume={activeProfile.resume} />
-          </div>
-        </div>
-        <ImportPanel onImport={importProfile} />
-        <ExportPanel resume={activeProfile.resume} />
-        <AtsPanel resume={activeProfile.resume} />
-        <AiPanel
-          resume={activeProfile.resume}
-          apiKey={apiKey}
-          onApplySummary={(summary) => {
-            updateActiveResume((resume) => ({ ...resume, summary }));
-          }}
-        />
-      </main>
+          </AccordionSection>
+
+          <AccordionSection title="ATS Check">
+            <StructuralChecksSection resume={activeProfile.resume} />
+          </AccordionSection>
+
+          <AccordionSection title="Keyword Match">
+            <KeywordMatchSection resume={activeProfile.resume} />
+          </AccordionSection>
+
+          <AccordionSection title="AI Suggestions">
+            <AiPanel
+              resume={activeProfile.resume}
+              apiKey={apiKey}
+              onApplySummary={(summary) => {
+                updateActiveResume((resume) => ({ ...resume, summary }));
+              }}
+            />
+          </AccordionSection>
+        </main>
+        {showGoToTop && (
+          <button
+            type="button"
+            onClick={scrollToTop}
+            aria-label="Go to top"
+            title="Go to top"
+            className="absolute bottom-4 right-4 rounded-full bg-brand-900 p-2 text-white shadow-lg hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-accent-600"
+          >
+            <ChevronUpIcon className="h-5 w-5" />
+          </button>
+        )}
+      </div>
     </div>
   );
 }

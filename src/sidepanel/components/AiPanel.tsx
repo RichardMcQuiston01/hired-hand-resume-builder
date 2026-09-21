@@ -125,22 +125,17 @@ export function AiPanel({
 
   if (!apiKey) {
     return (
-      <section className="flex flex-col gap-3 border-t border-border-subtle p-4">
-        <h2 className="text-base font-semibold text-ink-900">AI Suggestions</h2>
-        <p className="text-sm text-ink-600">
-          Get AI-assisted summary/bullet rewrites and keyword-gap suggestions
-          using your own Anthropic API key. Configure your key in{' '}
-          <span className="font-medium">Settings</span> (the gear icon at the
-          top of the window) to turn this on.
-        </p>
-      </section>
+      <p className="text-sm text-ink-600">
+        Get AI-assisted summary/bullet rewrites and keyword-gap suggestions
+        using your own Anthropic API key. Configure your key in{' '}
+        <span className="font-medium">Settings</span> (the gear icon at the top
+        of the window) to turn this on.
+      </p>
     );
   }
 
   return (
-    <section className="flex flex-col gap-4 border-t border-border-subtle p-4">
-      <h2 className="text-base font-semibold text-ink-900">AI Suggestions</h2>
-
+    <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
         <h3 className="text-sm font-semibold text-ink-900">Improve summary</h3>
         <button
@@ -263,6 +258,6 @@ export function AiPanel({
           </pre>
         )}
       </div>
-    </section>
+    </div>
   );
 }

@@ -23,7 +23,7 @@ export function ExperienceSection({
       onChange={onChange}
       createItem={createBlankExperienceEntry}
       getKey={(entry) => entry.id}
-      addLabel="+ Add job"
+      addLabel="Add job"
       collapsible={{
         isComplete: (entry) =>
           Boolean(

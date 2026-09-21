@@ -23,7 +23,7 @@ export function ProjectsSection({
       onChange={onChange}
       createItem={createBlankProjectEntry}
       getKey={(entry) => entry.id}
-      addLabel="+ Add project"
+      addLabel="Add project"
       renderItem={(entry, onEntryChange) => (
         <>
           <TextField

@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import type { KeyboardEvent, ReactElement } from 'react';
 
+import { CheckboxIcon } from '../icons';
+
 interface TagInputFieldProps {
   label: string;
   items: string[];
@@ -81,16 +83,15 @@ export function TagInputField({
           aria-label={`Add ${label}`}
           className="min-w-0 flex-1 rounded border border-border-subtle px-2 py-1 text-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500"
         />
-        <label className="flex shrink-0 flex-col items-center gap-1 text-xs text-ink-600">
-          Add
-          <input
-            type="checkbox"
-            checked={false}
-            onChange={addTag}
-            aria-label={`Add ${label} to list`}
-            className="h-4 w-4 rounded border-border-subtle text-brand-500 focus:ring-2 focus:ring-brand-500"
-          />
-        </label>
+        <button
+          type="button"
+          onClick={addTag}
+          title="Add"
+          aria-label={`Add ${label} to list`}
+          className="shrink-0 rounded p-1 text-ink-600 hover:bg-surface-200 hover:text-brand-500"
+        >
+          <CheckboxIcon />
+        </button>
       </div>
     </div>
   );

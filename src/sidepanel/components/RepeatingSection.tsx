@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import type { ReactElement, ReactNode } from 'react';
 
+import { PlusIcon } from './icons';
+
 interface CollapsibleConfig<TItem> {
   /** Whether the entry has enough filled in to collapse to a summary. */
   isComplete: (item: TItem) => boolean;
@@ -38,7 +40,7 @@ export function RepeatingSection<TItem>({
   createItem,
   getKey,
   renderItem,
-  addLabel = '+ Add',
+  addLabel = 'Add',
   collapsible,
 }: RepeatingSectionProps<TItem>): ReactElement {
   const [collapsedKeys, setCollapsedKeys] = useState<Set<string>>(
@@ -142,8 +144,9 @@ export function RepeatingSection<TItem>({
       <button
         type="button"
         onClick={handleAdd}
-        className="self-start rounded bg-accent-600 px-3 py-1 text-sm font-medium text-on-accent hover:bg-accent-700"
+        className="flex items-center gap-1 self-end rounded bg-accent-600 px-3 py-1 text-sm font-medium text-on-accent hover:bg-accent-700"
       >
+        <PlusIcon className="h-3.5 w-3.5" />
         {addLabel}
       </button>
     </section>

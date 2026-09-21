@@ -22,7 +22,7 @@ export function SkillsSection({
       onChange={onChange}
       createItem={createBlankSkillGroup}
       getKey={(group) => group.id}
-      addLabel="+ Add skill group"
+      addLabel="Add skill group"
       renderItem={(group, onGroupChange) => (
         <>
           <TextField
