@@ -140,6 +140,36 @@ export function ChevronUpIcon({
   );
 }
 
+export function HeartIcon({ className = 'h-4 w-4' }: IconProps): ReactElement {
+  return (
+    <svg
+      viewBox="0 0 20 20"
+      fill="currentColor"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d="M9.653 16.915a.75.75 0 0 0 .694 0c1.937-1.014 6.653-3.826 6.653-8.088C17 5.921 15.13 4 12.833 4 11.62 4 10.53 4.596 10 5.53 9.47 4.596 8.38 4 7.167 4 4.871 4 3 5.921 3 8.827c0 4.262 4.716 7.074 6.653 8.088Z" />
+    </svg>
+  );
+}
+
+export function CloseIcon({ className = 'h-4 w-4' }: IconProps): ReactElement {
+  return (
+    <svg
+      viewBox="0 0 20 20"
+      fill="currentColor"
+      aria-hidden="true"
+      className={className}
+    >
+      <path
+        fillRule="evenodd"
+        d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L8.94 10l-4.72 4.72a.75.75 0 1 0 1.06 1.06L10 11.06l4.72 4.72a.75.75 0 1 0 1.06-1.06L11.06 10l4.72-4.72a.75.75 0 0 0-1.06-1.06L10 8.94 5.28 4.22Z"
+        clipRule="evenodd"
+      />
+    </svg>
+  );
+}
+
 /** A checkbox-style glyph used as a clickable "confirm/save" button, not a
  * native checked/unchecked toggle. */
 export function CheckboxIcon({

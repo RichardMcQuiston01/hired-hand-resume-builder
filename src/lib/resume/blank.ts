@@ -33,7 +33,7 @@ export function createBlankExperienceEntry(): ExperienceEntry {
     title: '',
     startDate: '',
     isCurrent: false,
-    highlights: [''],
+    highlights: [],
   };
 }
 
