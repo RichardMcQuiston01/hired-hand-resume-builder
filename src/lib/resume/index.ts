@@ -5,13 +5,18 @@ export {
   createBlankExperienceEntry,
   createBlankLink,
   createBlankProjectEntry,
+  createBlankRecommendation,
   createBlankResume,
+  createBlankScreenshot,
   createBlankSkillGroup,
 } from './blank';
 export { createFixtureResume } from './fixtures';
 export { createId } from './id';
 export {
+  MAX_SCREENSHOT_DATA_URL_LENGTH,
   parseResume,
+  PORTFOLIO_MAX_FEATURED_PROJECTS,
+  PORTFOLIO_MIN_FEATURED_PROJECTS,
   RESUME_SCHEMA_VERSION,
   resumeDraftSchema,
   resumeSchema,
@@ -21,7 +26,11 @@ export {
   type EducationEntry,
   type ExperienceEntry,
   type Link,
+  type Portfolio,
   type ProjectEntry,
+  type Recommendation,
+  type RecommendationRelationship,
   type Resume,
+  type Screenshot,
   type SkillGroup,
 } from './schema';

@@ -107,4 +107,74 @@ describe('resumeSchema', () => {
 
     expect(result.success).toBe(false);
   });
+
+  it('defaults portfolio and project extras for older v1 resumes', () => {
+    const fixture = createFixtureResume();
+    const { portfolio: _portfolio, ...withoutPortfolio } = fixture;
+    const [project] = fixture.projects;
+    if (!project) {
+      throw new Error('Fixture resume must have at least one project.');
+    }
+    const legacyProject = {
+      id: project.id,
+      name: project.name,
+      description: project.description,
+    };
+
+    const result = safeParseResume({
+      ...withoutPortfolio,
+      projects: [legacyProject],
+    });
+
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.portfolio).toStrictEqual({
+        featuredProjectIds: [],
+        recommendations: [],
+      });
+      expect(result.data.projects[0]?.techStack).toStrictEqual([]);
+      expect(result.data.projects[0]?.screenshots).toStrictEqual([]);
+    }
+  });
+
+  it('rejects a screenshot that is not a base64 image data URL', () => {
+    const fixture = createFixtureResume();
+    const [project] = fixture.projects;
+    const [screenshot] = project?.screenshots ?? [];
+    if (!project || !screenshot) {
+      throw new Error('Fixture resume must have a project screenshot.');
+    }
+
+    const result = safeParseResume({
+      ...fixture,
+      projects: [
+        {
+          ...project,
+          screenshots: [
+            { ...screenshot, dataUrl: 'https://example.com/shot.png' },
+          ],
+        },
+      ],
+    });
+
+    expect(result.success).toBe(false);
+  });
+
+  it('rejects a recommendation with an unknown relationship', () => {
+    const fixture = createFixtureResume();
+    const [recommendation] = fixture.portfolio.recommendations;
+    if (!recommendation) {
+      throw new Error('Fixture resume must have a recommendation.');
+    }
+
+    const result = safeParseResume({
+      ...fixture,
+      portfolio: {
+        ...fixture.portfolio,
+        recommendations: [{ ...recommendation, relationship: 'stranger' }],
+      },
+    });
+
+    expect(result.success).toBe(false);
+  });
 });

@@ -3,6 +3,8 @@ import { z } from 'zod';
 /**
  * Bumped whenever a breaking change is made to the resume shape below, so
  * stored/exported resumes can be migrated instead of silently misread.
+ * Purely additive changes (new optional or defaulted fields, such as the
+ * portfolio fields) do not require a bump: older v1 data still parses.
  */
 export const RESUME_SCHEMA_VERSION = 1;
 
@@ -69,12 +71,78 @@ const certificationEntrySchema = z.object({
   credentialUrl: z.url().optional(),
 });
 
+/** Matches a base64-encoded raster image, e.g. "data:image/png;base64,...". */
+const IMAGE_DATA_URL_PATTERN =
+  /^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/]+=*$/;
+
+/**
+ * Upper bound on a single stored screenshot (~1.5 MB of base64 text), so a
+ * handful of screenshots can't blow through the `chrome.storage` quota.
+ */
+export const MAX_SCREENSHOT_DATA_URL_LENGTH = 1_500_000;
+
+/** Portfolio guidance (see the Intuit blog): 3 to 5 standout projects. */
+export const PORTFOLIO_MIN_FEATURED_PROJECTS = 3;
+export const PORTFOLIO_MAX_FEATURED_PROJECTS = 5;
+
+const screenshotSchema = z.object({
+  id: z.uuid(),
+  dataUrl: z
+    .string()
+    .max(MAX_SCREENSHOT_DATA_URL_LENGTH)
+    .regex(
+      IMAGE_DATA_URL_PATTERN,
+      'Expected a base64 PNG, JPEG, or WebP data URL.',
+    ),
+  altText: z.string().min(1),
+});
+
 const projectEntrySchema = z.object({
   id: z.uuid(),
   name: z.string().min(1),
   description: z.string().min(1),
+  /** General-purpose link; prefer `repoUrl` / `demoUrl` for portfolio use. */
   url: z.url().optional(),
   highlights: z.array(z.string().min(1)).default([]),
+  techStack: z.array(z.string().min(1)).default([]),
+  repoUrl: z.url().optional(),
+  demoUrl: z.url().optional(),
+  /** The result or impact, e.g. "Cut monthly reconciliation from 2 days to 2 hours." */
+  outcome: z.string().min(1).optional(),
+  screenshots: z.array(screenshotSchema).default([]),
+});
+
+const RECOMMENDATION_RELATIONSHIPS = [
+  'manager',
+  'peer',
+  'direct_report',
+  'client',
+  'mentor',
+  'professor',
+  'other',
+] as const;
+
+const recommendationSchema = z.object({
+  id: z.uuid(),
+  authorName: z.string().min(1),
+  authorTitle: z.string().min(1).optional(),
+  authorCompany: z.string().min(1).optional(),
+  relationship: z.enum(RECOMMENDATION_RELATIONSHIPS),
+  quote: z.string().min(1),
+  /** Where the original lives (e.g. a LinkedIn recommendation), for verification. */
+  sourceUrl: z.url().optional(),
+  /**
+   * Whether the author agreed to have their words and name published.
+   * Portfolio exports should skip recommendations where this is false.
+   */
+  hasAuthorPermission: z.boolean(),
+});
+
+const portfolioSchema = z.object({
+  bio: z.string().min(1).optional(),
+  /** Ids of `projects` to showcase, in display order. */
+  featuredProjectIds: z.array(z.uuid()).default([]),
+  recommendations: z.array(recommendationSchema).default([]),
 });
 
 export const resumeSchema = z.object({
@@ -89,6 +157,10 @@ export const resumeSchema = z.object({
   skills: z.array(skillGroupSchema).default([]),
   certifications: z.array(certificationEntrySchema).default([]),
   projects: z.array(projectEntrySchema).default([]),
+  portfolio: portfolioSchema.default({
+    featuredProjectIds: [],
+    recommendations: [],
+  }),
 });
 
 const draftLinkSchema = z.object({
@@ -142,12 +214,40 @@ const draftCertificationEntrySchema = z.object({
   credentialUrl: z.string().optional(),
 });
 
+const draftScreenshotSchema = z.object({
+  id: z.uuid(),
+  dataUrl: z.string(),
+  altText: z.string(),
+});
+
 const draftProjectEntrySchema = z.object({
   id: z.uuid(),
   name: z.string(),
   description: z.string(),
   url: z.string().optional(),
   highlights: z.array(z.string()).default([]),
+  techStack: z.array(z.string()).default([]),
+  repoUrl: z.string().optional(),
+  demoUrl: z.string().optional(),
+  outcome: z.string().optional(),
+  screenshots: z.array(draftScreenshotSchema).default([]),
+});
+
+const draftRecommendationSchema = z.object({
+  id: z.uuid(),
+  authorName: z.string(),
+  authorTitle: z.string().optional(),
+  authorCompany: z.string().optional(),
+  relationship: z.enum(RECOMMENDATION_RELATIONSHIPS),
+  quote: z.string(),
+  sourceUrl: z.string().optional(),
+  hasAuthorPermission: z.boolean(),
+});
+
+const draftPortfolioSchema = z.object({
+  bio: z.string().optional(),
+  featuredProjectIds: z.array(z.uuid()).default([]),
+  recommendations: z.array(draftRecommendationSchema).default([]),
 });
 
 /**
@@ -170,6 +270,10 @@ export const resumeDraftSchema = z.object({
   skills: z.array(draftSkillGroupSchema).default([]),
   certifications: z.array(draftCertificationEntrySchema).default([]),
   projects: z.array(draftProjectEntrySchema).default([]),
+  portfolio: draftPortfolioSchema.default({
+    featuredProjectIds: [],
+    recommendations: [],
+  }),
 });
 
 export type Link = z.infer<typeof linkSchema>;
@@ -179,6 +283,11 @@ export type EducationEntry = z.infer<typeof educationEntrySchema>;
 export type SkillGroup = z.infer<typeof skillGroupSchema>;
 export type CertificationEntry = z.infer<typeof certificationEntrySchema>;
 export type ProjectEntry = z.infer<typeof projectEntrySchema>;
+export type Screenshot = z.infer<typeof screenshotSchema>;
+export type RecommendationRelationship =
+  (typeof RECOMMENDATION_RELATIONSHIPS)[number];
+export type Recommendation = z.infer<typeof recommendationSchema>;
+export type Portfolio = z.infer<typeof portfolioSchema>;
 export type Resume = z.infer<typeof resumeSchema>;
 
 /** Parses and validates a resume, throwing a `z.ZodError` on failure. */
