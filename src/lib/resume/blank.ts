@@ -7,7 +7,9 @@ import type {
   ExperienceEntry,
   Link,
   ProjectEntry,
+  Recommendation,
   Resume,
+  Screenshot,
   SkillGroup,
 } from './schema';
 
@@ -56,7 +58,28 @@ export function createBlankCertificationEntry(): CertificationEntry {
 }
 
 export function createBlankProjectEntry(): ProjectEntry {
-  return { id: createId(), name: '', description: '', highlights: [] };
+  return {
+    id: createId(),
+    name: '',
+    description: '',
+    highlights: [],
+    techStack: [],
+    screenshots: [],
+  };
+}
+
+export function createBlankScreenshot(): Screenshot {
+  return { id: createId(), dataUrl: '', altText: '' };
+}
+
+export function createBlankRecommendation(): Recommendation {
+  return {
+    id: createId(),
+    authorName: '',
+    relationship: 'manager',
+    quote: '',
+    hasAuthorPermission: false,
+  };
 }
 
 export function createBlankResume(): Resume {
@@ -73,5 +96,6 @@ export function createBlankResume(): Resume {
     skills: [],
     certifications: [],
     projects: [],
+    portfolio: { featuredProjectIds: [], recommendations: [] },
   };
 }

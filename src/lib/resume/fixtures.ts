@@ -6,6 +6,8 @@ import { RESUME_SCHEMA_VERSION, type Resume } from './schema';
  * UI during local development.
  */
 export function createFixtureResume(): Resume {
+  const projectId = createId();
+
   return {
     schemaVersion: RESUME_SCHEMA_VERSION,
     id: createId(),
@@ -92,13 +94,43 @@ export function createFixtureResume(): Resume {
     ],
     projects: [
       {
-        id: createId(),
+        id: projectId,
         name: 'Hired Hand: Resume Builder',
         description:
           'Chrome extension for building and exporting ATS-compatible resumes.',
         url: 'https://github.com/RichardMcQuiston01/hired-hand-resume-builder',
         highlights: [],
+        techStack: ['TypeScript', 'React', 'Vite', 'Tailwind CSS'],
+        repoUrl:
+          'https://github.com/RichardMcQuiston01/hired-hand-resume-builder',
+        outcome: 'Exports ATS-checked resumes to five formats from one editor.',
+        screenshots: [
+          {
+            id: createId(),
+            // 1x1 transparent PNG.
+            dataUrl:
+              'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==',
+            altText: 'The resume builder side panel next to a job posting.',
+          },
+        ],
       },
     ],
+    portfolio: {
+      bio: 'Full-stack engineer who builds tools that make job hunting less painful.',
+      featuredProjectIds: [projectId],
+      recommendations: [
+        {
+          id: createId(),
+          authorName: 'Jordan Rivera',
+          authorTitle: 'Engineering Manager',
+          authorCompany: 'Acme Corp',
+          relationship: 'manager',
+          quote:
+            'Delivered the billing migration two weeks early and documented every step.',
+          sourceUrl: 'https://www.linkedin.com/in/example-recommendation',
+          hasAuthorPermission: true,
+        },
+      ],
+    },
   };
 }
