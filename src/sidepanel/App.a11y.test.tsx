@@ -57,4 +57,22 @@ describe('App accessibility', () => {
 
     expect(await axe(container)).toHaveNoViolations();
   });
+
+  it('has no axe violations with the Portfolio section open', async () => {
+    const profileId = createId();
+    await savePersistedState({
+      version: STORAGE_SCHEMA_VERSION,
+      activeProfileId: profileId,
+      profiles: [
+        { id: profileId, name: 'Full Resume', resume: createFixtureResume() },
+      ],
+    });
+
+    const { container } = render(<App />);
+    await flushLoad();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Portfolio' }));
+
+    expect(await axe(container)).toHaveNoViolations();
+  });
 });
