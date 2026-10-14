@@ -6,7 +6,7 @@ import {
   suggestKeywordGaps,
   suggestSummary,
 } from '../../lib/ai';
-import type { Resume } from '../../lib/resume';
+import type { Resume } from '@hired-hand/resume-core';
 import { TextAreaField } from './ui/TextAreaField';
 
 interface AiPanelProps {

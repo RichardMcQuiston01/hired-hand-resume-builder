@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { installFakeChromeStorage } from '../../test/chromeStorageFake';
-import { createFixtureResume, createId } from '../resume';
+import { createFixtureResume, createId } from '@hired-hand/resume-core';
 import {
   loadPersistedState,
   savePersistedState,

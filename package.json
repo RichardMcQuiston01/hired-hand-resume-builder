@@ -5,24 +5,29 @@
   "description": "TypeScript based Chrome Extension that allows users to build and export ATS compatible resumes.",
   "license": "Apache-2.0",
   "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "typecheck": "tsc -b --noEmit",
+    "typecheck": "tsc -b --noEmit && npm run typecheck -w @hired-hand/resume-core",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "vitest run",
+    "test": "vitest run && npm run test -w @hired-hand/resume-core",
     "test:watch": "vitest",
     "pretest:e2e": "npm run build",
     "test:e2e": "playwright test",
     "icons": "node scripts/gen-icons.mjs",
-    "ci": "npm run lint && npm run typecheck && npm run test && npm run build"
+    "ci": "npm run lint && npm run typecheck && npm run test && npm run build",
+    "prepare": "npm run build -w @hired-hand/resume-core"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "0.127.0",
+    "@hired-hand/resume-core": "0.1.0",
     "docx": "9.7.1",
     "pdf-lib": "1.17.1",
     "react": "19.3.0",

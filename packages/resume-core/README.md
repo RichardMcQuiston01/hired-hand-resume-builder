@@ -3,7 +3,7 @@
 ATS-compatible resume model, validators, and exporters shared by the Hired Hand
 tools (Chrome extension, VS Code extension, ...).
 
-- **Exporters:** DOCX, PDF, HTML, plain text, JSON.
+- **Exporters:** HTML, plain text, JSON (main entry); DOCX (`/docx`); PDF (`/pdf`).
 - **ATS checks:** structural check and job-description keyword matching.
 - **Validation your way:** a built-in dependency-free validator, a Zod schema,
   or any [Standard Schema](https://standardschema.dev) library.
@@ -11,22 +11,22 @@ tools (Chrome extension, VS Code extension, ...).
 ## Install
 
 ```sh
-npm install @hired-hand/resume-core docx pdf-lib
-# optional, only if you import "@hired-hand/resume-core/zod"
-npm install zod
+npm install @hired-hand/resume-core
+# only for the entries you import:
+npm install docx      # "@hired-hand/resume-core/docx"
+npm install pdf-lib   # "@hired-hand/resume-core/pdf"
+npm install zod       # "@hired-hand/resume-core/zod"
 ```
 
-`docx` and `pdf-lib` are peer dependencies so your app controls the versions.
+The main entry has no dependencies. `docx`, `pdf-lib`, and `zod` are optional
+peer dependencies, needed only by their own entry, so your app controls the
+versions and can lazy-load the heavy ones (`await import('.../docx')`).
 
 ## Usage
 
 ```ts
-import {
-  checkResumeStructure,
-  exportResumeAsDocx,
-  exportResumeAsPdf,
-  parseResume,
-} from '@hired-hand/resume-core';
+import { checkResumeStructure, parseResume } from '@hired-hand/resume-core';
+import { exportResumeAsPdf } from '@hired-hand/resume-core/pdf';
 
 const resume = parseResume(JSON.parse(rawJson)); // throws a descriptive Error
 const pdf: Blob = await exportResumeAsPdf(resume);

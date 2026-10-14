@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react';
 
-import type { Resume } from '../../lib/resume';
+import type { Resume } from '@hired-hand/resume-core';
 import { CertificationsSection } from './sections/CertificationsSection';
 import { ContactSection } from './sections/ContactSection';
 import { EducationSection } from './sections/EducationSection';

@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react';
 
-import type { SkillGroup } from '../../../lib/resume';
-import { createBlankSkillGroup } from '../../../lib/resume';
+import type { SkillGroup } from '@hired-hand/resume-core';
+import { createBlankSkillGroup } from '@hired-hand/resume-core';
 import { RepeatingSection } from '../RepeatingSection';
 import { TagInputField } from '../ui/TagInputField';
 import { TextField } from '../ui/TextField';

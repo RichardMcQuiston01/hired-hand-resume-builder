@@ -6,7 +6,7 @@ import {
   savePersistedState,
   STORAGE_SCHEMA_VERSION,
 } from '../lib/storage/resumeStorage';
-import { createFixtureResume, createId } from '../lib/resume';
+import { createFixtureResume, createId } from '@hired-hand/resume-core';
 import { installFakeChromeStorage } from '../test/chromeStorageFake';
 import { App } from './App';
 

@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import type { ReactElement } from 'react';
 
-// Import each generator from its own module (not the barrel) so the
-// dynamic imports below for docx/pdf-lib actually split into separate
-// chunks instead of being pulled in statically through index.ts.
-import { resumeFileBaseName } from '../../lib/export/fileNames';
-import { exportResumeAsHtml } from '../../lib/export/toHtml';
-import { exportResumeAsJson } from '../../lib/export/toJson';
-import { exportResumeAsPlainText } from '../../lib/export/toPlainText';
-import type { Resume } from '../../lib/resume';
+// DOCX and PDF come from their own package entries (not the main one) so the
+// dynamic imports below actually split docx/pdf-lib into separate chunks
+// instead of pulling them into the initial side panel bundle.
+import {
+  exportResumeAsHtml,
+  exportResumeAsJson,
+  exportResumeAsPlainText,
+  resumeFileBaseName,
+} from '@hired-hand/resume-core';
+import type { Resume } from '@hired-hand/resume-core';
 import { downloadBlob } from '../utils/downloadBlob';
 import { DownloadIcon } from './icons';
 
@@ -53,7 +55,8 @@ const EXPORT_FORMATS: Record<string, ExportFormatConfig> = {
     label: 'DOCX',
     extension: 'docx',
     generate: async (resume) => {
-      const { exportResumeAsDocx } = await import('../../lib/export/toDocx');
+      const { exportResumeAsDocx } =
+        await import('@hired-hand/resume-core/docx');
       return exportResumeAsDocx(resume);
     },
   },
@@ -61,7 +64,7 @@ const EXPORT_FORMATS: Record<string, ExportFormatConfig> = {
     label: 'PDF',
     extension: 'pdf',
     generate: async (resume) => {
-      const { exportResumeAsPdf } = await import('../../lib/export/toPdf');
+      const { exportResumeAsPdf } = await import('@hired-hand/resume-core/pdf');
       return exportResumeAsPdf(resume);
     },
   },

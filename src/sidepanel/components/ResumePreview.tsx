@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react';
 
-import type { Resume } from '../../lib/resume';
+import type { Resume } from '@hired-hand/resume-core';
 
 interface ResumePreviewProps {
   resume: Resume;

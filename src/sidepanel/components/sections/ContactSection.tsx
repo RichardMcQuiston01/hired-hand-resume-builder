@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react';
 
-import type { Contact } from '../../../lib/resume';
+import type { Contact } from '@hired-hand/resume-core';
 import { LinksField } from '../LinksField';
 import { TextField } from '../ui/TextField';
 

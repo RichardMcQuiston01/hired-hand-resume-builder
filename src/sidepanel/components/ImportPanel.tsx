@@ -2,7 +2,7 @@ import { useId, useState } from 'react';
 import type { ChangeEvent, ReactElement } from 'react';
 
 import { importResumeFromJson } from '../../lib/import';
-import type { Resume } from '../../lib/resume';
+import type { Resume } from '@hired-hand/resume-core';
 
 interface ImportPanelProps {
   onImport: (resume: Resume, name: string) => void;

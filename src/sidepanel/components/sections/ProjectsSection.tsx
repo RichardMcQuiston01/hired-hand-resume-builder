@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react';
 
-import type { ProjectEntry } from '../../../lib/resume';
-import { createBlankProjectEntry } from '../../../lib/resume';
+import type { ProjectEntry } from '@hired-hand/resume-core';
+import { createBlankProjectEntry } from '@hired-hand/resume-core';
 import { RepeatingSection } from '../RepeatingSection';
 import { StringListField } from '../ui/StringListField';
 import { TextAreaField } from '../ui/TextAreaField';

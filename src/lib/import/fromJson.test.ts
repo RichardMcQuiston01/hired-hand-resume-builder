@@ -1,7 +1,10 @@
 import { describe, expect, it } from 'vitest';
 
-import { exportResumeAsJson } from '../export';
-import { createBlankResume, createFixtureResume } from '../resume';
+import { exportResumeAsJson } from '@hired-hand/resume-core';
+import {
+  createBlankResume,
+  createFixtureResume,
+} from '@hired-hand/resume-core';
 import { importResumeFromJson } from './fromJson';
 
 describe('importResumeFromJson', () => {

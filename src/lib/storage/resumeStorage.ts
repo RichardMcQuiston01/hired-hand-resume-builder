@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { resumeDraftSchema } from '../resume';
+import { resumeDraftSchema } from '@hired-hand/resume-core/zod';
 
 /**
  * Bumped whenever the persisted envelope shape below changes, so a future

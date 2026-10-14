@@ -29,6 +29,26 @@
         "default": "./dist/zod.cjs"
       }
     },
+    "./docx": {
+      "import": {
+        "types": "./dist/docx.d.ts",
+        "default": "./dist/docx.js"
+      },
+      "require": {
+        "types": "./dist/docx.d.cts",
+        "default": "./dist/docx.cjs"
+      }
+    },
+    "./pdf": {
+      "import": {
+        "types": "./dist/pdf.d.ts",
+        "default": "./dist/pdf.js"
+      },
+      "require": {
+        "types": "./dist/pdf.d.cts",
+        "default": "./dist/pdf.cjs"
+      }
+    },
     "./package.json": "./package.json"
   },
   "files": [
@@ -54,6 +74,12 @@
     "zod": "^4.0.0"
   },
   "peerDependenciesMeta": {
+    "docx": {
+      "optional": true
+    },
+    "pdf-lib": {
+      "optional": true
+    },
     "zod": {
       "optional": true
     }
