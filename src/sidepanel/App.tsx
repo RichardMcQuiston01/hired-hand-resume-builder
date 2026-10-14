@@ -11,6 +11,7 @@ import { DonateToast } from './components/DonateToast';
 import { ExportPanel } from './components/ExportPanel';
 import { ChevronUpIcon } from './components/icons';
 import { ImportPanel } from './components/ImportPanel';
+import { PortfolioForm } from './components/PortfolioForm';
 import { ProfileBar } from './components/ProfileBar';
 import { ResumeForm } from './components/ResumeForm';
 import { ResumePreview } from './components/ResumePreview';
@@ -98,6 +99,13 @@ export function App(): ReactElement {
             headerAction={<ImportPanel onImport={importProfile} />}
           >
             <ResumeForm
+              resume={activeProfile.resume}
+              onChange={updateActiveResume}
+            />
+          </AccordionSection>
+
+          <AccordionSection title="Portfolio" defaultOpen={false}>
+            <PortfolioForm
               resume={activeProfile.resume}
               onChange={updateActiveResume}
             />
