@@ -9,7 +9,7 @@ import {
   createBlankResume,
   createFixtureResume,
   type Resume,
-} from '../../lib/resume';
+} from '@hired-hand/resume-core';
 import { PortfolioForm } from './PortfolioForm';
 
 function Harness({ initial }: { initial: Resume }): ReactElement {
