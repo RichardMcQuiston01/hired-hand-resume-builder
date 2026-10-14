@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react';
 
-import type { Resume } from '../../lib/resume';
+import type { Resume } from '@richardmcquiston01/ats-resume-export';
 
 interface ResumePreviewProps {
   resume: Resume;

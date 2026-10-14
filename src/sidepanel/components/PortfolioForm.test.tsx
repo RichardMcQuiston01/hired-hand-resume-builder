@@ -9,7 +9,7 @@ import {
   createBlankResume,
   createFixtureResume,
   type Resume,
-} from '../../lib/resume';
+} from '@richardmcquiston01/ats-resume-export';
 import { PortfolioForm } from './PortfolioForm';
 
 function Harness({ initial }: { initial: Resume }): ReactElement {

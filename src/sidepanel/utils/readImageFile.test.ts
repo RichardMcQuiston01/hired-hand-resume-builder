@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { MAX_SCREENSHOT_DATA_URL_LENGTH } from '../../lib/resume';
+import { MAX_SCREENSHOT_DATA_URL_LENGTH } from '@richardmcquiston01/ats-resume-export';
 import { readImageFileAsDataUrl } from './readImageFile';
 
 describe('readImageFileAsDataUrl', () => {

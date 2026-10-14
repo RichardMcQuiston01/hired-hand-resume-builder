@@ -1,6 +1,6 @@
 import type Anthropic from '@anthropic-ai/sdk';
 
-import type { Resume } from '../resume';
+import type { Resume } from '@richardmcquiston01/ats-resume-export';
 
 // Suggestions are short, single-turn rewrites, not agentic work — low
 // effort keeps latency and cost down without hurting quality here.

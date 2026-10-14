@@ -1,7 +1,11 @@
 import { act, renderHook } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { createBlankResume, createId, type Resume } from '../../lib/resume';
+import {
+  createBlankResume,
+  createId,
+  type Resume,
+} from '@richardmcquiston01/ats-resume-export';
 import {
   loadPersistedState,
   savePersistedState,

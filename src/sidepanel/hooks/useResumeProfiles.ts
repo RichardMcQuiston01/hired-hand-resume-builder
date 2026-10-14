@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 
-import { createBlankResume, createId, type Resume } from '../../lib/resume';
+import {
+  createBlankResume,
+  createId,
+  type Resume,
+} from '@richardmcquiston01/ats-resume-export';
 import {
   loadPersistedState,
   savePersistedState,

@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react';
 
-import type { Contact } from '../../../lib/resume';
+import type { Contact } from '@richardmcquiston01/ats-resume-export';
 import { LinksField } from '../LinksField';
 import { TextField } from '../ui/TextField';
 

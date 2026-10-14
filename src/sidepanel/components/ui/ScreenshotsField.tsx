@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import type { ChangeEvent, ReactElement } from 'react';
 
-import { createBlankScreenshot, type Screenshot } from '../../../lib/resume';
+import {
+  createBlankScreenshot,
+  type Screenshot,
+} from '@richardmcquiston01/ats-resume-export';
 import {
   ACCEPTED_IMAGE_TYPES,
   readImageFileAsDataUrl,

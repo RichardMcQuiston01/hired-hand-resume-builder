@@ -1,4 +1,4 @@
-import { MAX_SCREENSHOT_DATA_URL_LENGTH } from '../../lib/resume';
+import { MAX_SCREENSHOT_DATA_URL_LENGTH } from '@richardmcquiston01/ats-resume-export';
 
 export const ACCEPTED_IMAGE_TYPES: readonly string[] = [
   'image/png',

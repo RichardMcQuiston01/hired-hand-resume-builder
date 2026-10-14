@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { createFixtureResume } from '../resume';
+import { createFixtureResume } from '@richardmcquiston01/ats-resume-export';
 import {
   suggestBulletRewrite,
   suggestKeywordGaps,

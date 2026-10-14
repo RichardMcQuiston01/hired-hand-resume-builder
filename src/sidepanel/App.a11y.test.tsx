@@ -6,7 +6,10 @@ import {
   savePersistedState,
   STORAGE_SCHEMA_VERSION,
 } from '../lib/storage/resumeStorage';
-import { createFixtureResume, createId } from '../lib/resume';
+import {
+  createFixtureResume,
+  createId,
+} from '@richardmcquiston01/ats-resume-export';
 import { installFakeChromeStorage } from '../test/chromeStorageFake';
 import { App } from './App';
 

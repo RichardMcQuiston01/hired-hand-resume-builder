@@ -6,7 +6,7 @@ import {
   suggestKeywordGaps,
   suggestSummary,
 } from '../../lib/ai';
-import type { Resume } from '../../lib/resume';
+import type { Resume } from '@richardmcquiston01/ats-resume-export';
 import { TextAreaField } from './ui/TextAreaField';
 
 interface AiPanelProps {

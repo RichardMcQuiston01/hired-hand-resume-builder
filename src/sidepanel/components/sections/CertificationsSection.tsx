@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react';
 
-import type { CertificationEntry } from '../../../lib/resume';
-import { createBlankCertificationEntry } from '../../../lib/resume';
+import type { CertificationEntry } from '@richardmcquiston01/ats-resume-export';
+import { createBlankCertificationEntry } from '@richardmcquiston01/ats-resume-export';
 import { RepeatingSection } from '../RepeatingSection';
 import { TextField } from '../ui/TextField';
 

@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react';
 
-import type { ExperienceEntry } from '../../../lib/resume';
-import { createBlankExperienceEntry } from '../../../lib/resume';
+import type { ExperienceEntry } from '@richardmcquiston01/ats-resume-export';
+import { createBlankExperienceEntry } from '@richardmcquiston01/ats-resume-export';
 import { RepeatingSection } from '../RepeatingSection';
 import { CheckboxField } from '../ui/CheckboxField';
 import { StringListField } from '../ui/StringListField';

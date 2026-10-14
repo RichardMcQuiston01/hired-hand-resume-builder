@@ -3,8 +3,8 @@ import type { ReactElement } from 'react';
 import type {
   Recommendation,
   RecommendationRelationship,
-} from '../../../lib/resume';
-import { createBlankRecommendation } from '../../../lib/resume';
+} from '@richardmcquiston01/ats-resume-export';
+import { createBlankRecommendation } from '@richardmcquiston01/ats-resume-export';
 import { RepeatingSection } from '../RepeatingSection';
 import { CheckboxField } from '../ui/CheckboxField';
 import { SelectField, type SelectOption } from '../ui/SelectField';
