@@ -4,7 +4,7 @@ import {
   createBlankResume,
   createId,
   type Resume,
-} from '@hired-hand/resume-core';
+} from '@richardmcquiston01/ats-resume-export';
 import {
   loadPersistedState,
   savePersistedState,

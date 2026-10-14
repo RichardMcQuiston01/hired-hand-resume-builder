@@ -2,8 +2,8 @@ import {
   createId,
   RESUME_SCHEMA_VERSION,
   type Resume,
-} from '@hired-hand/resume-core';
-import { resumeDraftSchema } from '@hired-hand/resume-core/zod';
+} from '@richardmcquiston01/ats-resume-export';
+import { resumeDraftSchema } from '@richardmcquiston01/ats-resume-export/zod';
 
 export interface ImportResumeSuccess {
   success: true;
@@ -18,7 +18,7 @@ export interface ImportResumeFailure {
 export type ImportResumeResult = ImportResumeSuccess | ImportResumeFailure;
 
 /**
- * Parses a JSON resume export (see `exportResumeAsJson` in `@hired-hand/resume-core`) back into a
+ * Parses a JSON resume export (see `exportResumeAsJson` in `@richardmcquiston01/ats-resume-export`) back into a
  * `Resume`, assigning it a fresh id and timestamps so it never collides
  * with an existing profile. Uses the permissive draft schema — not the
  * strict export-readiness one — since an imported resume may

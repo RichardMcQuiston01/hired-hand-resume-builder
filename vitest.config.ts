@@ -9,6 +9,6 @@ export default defineConfig({
     globals: false,
     // e2e/ holds Playwright specs (a separate test runner, `npm run
     // test:e2e`) — Vitest's default glob would otherwise also pick them up.
-    exclude: [...configDefaults.exclude, 'e2e/**', 'packages/**'],
+    exclude: [...configDefaults.exclude, 'e2e/**'],
   },
 });

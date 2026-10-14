@@ -4,7 +4,7 @@ import {
   PORTFOLIO_MAX_FEATURED_PROJECTS,
   PORTFOLIO_MIN_FEATURED_PROJECTS,
   type ProjectEntry,
-} from '@hired-hand/resume-core';
+} from '@richardmcquiston01/ats-resume-export';
 
 interface FeaturedProjectsSectionProps {
   projects: ProjectEntry[];

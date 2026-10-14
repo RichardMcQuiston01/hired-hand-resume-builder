@@ -7,8 +7,8 @@ import {
 } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { exportResumeAsJson } from '@hired-hand/resume-core';
-import { createBlankResume } from '@hired-hand/resume-core';
+import { exportResumeAsJson } from '@richardmcquiston01/ats-resume-export';
+import { createBlankResume } from '@richardmcquiston01/ats-resume-export';
 import { installFakeChromeStorage } from '../test/chromeStorageFake';
 import { App } from './App';
 

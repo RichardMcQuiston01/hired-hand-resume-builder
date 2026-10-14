@@ -9,8 +9,8 @@ import {
   exportResumeAsJson,
   exportResumeAsPlainText,
   resumeFileBaseName,
-} from '@hired-hand/resume-core';
-import type { Resume } from '@hired-hand/resume-core';
+} from '@richardmcquiston01/ats-resume-export';
+import type { Resume } from '@richardmcquiston01/ats-resume-export';
 import { downloadBlob } from '../utils/downloadBlob';
 import { DownloadIcon } from './icons';
 
@@ -56,7 +56,7 @@ const EXPORT_FORMATS: Record<string, ExportFormatConfig> = {
     extension: 'docx',
     generate: async (resume) => {
       const { exportResumeAsDocx } =
-        await import('@hired-hand/resume-core/docx');
+        await import('@richardmcquiston01/ats-resume-export/docx');
       return exportResumeAsDocx(resume);
     },
   },
@@ -64,7 +64,8 @@ const EXPORT_FORMATS: Record<string, ExportFormatConfig> = {
     label: 'PDF',
     extension: 'pdf',
     generate: async (resume) => {
-      const { exportResumeAsPdf } = await import('@hired-hand/resume-core/pdf');
+      const { exportResumeAsPdf } =
+        await import('@richardmcquiston01/ats-resume-export/pdf');
       return exportResumeAsPdf(resume);
     },
   },

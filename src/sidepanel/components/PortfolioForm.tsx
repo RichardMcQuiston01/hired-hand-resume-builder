@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react';
 
-import type { Resume } from '@hired-hand/resume-core';
+import type { Resume } from '@richardmcquiston01/ats-resume-export';
 import { FeaturedProjectsSection } from './sections/FeaturedProjectsSection';
 import { PortfolioBioSection } from './sections/PortfolioBioSection';
 import { ProjectShowcaseSection } from './sections/ProjectShowcaseSection';

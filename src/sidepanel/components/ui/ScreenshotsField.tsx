@@ -4,7 +4,7 @@ import type { ChangeEvent, ReactElement } from 'react';
 import {
   createBlankScreenshot,
   type Screenshot,
-} from '@hired-hand/resume-core';
+} from '@richardmcquiston01/ats-resume-export';
 import {
   ACCEPTED_IMAGE_TYPES,
   readImageFileAsDataUrl,

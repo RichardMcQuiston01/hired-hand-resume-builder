@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import type { KeyboardEvent, ReactElement } from 'react';
 
-import { createBlankLink, type Link } from '@hired-hand/resume-core';
+import {
+  createBlankLink,
+  type Link,
+} from '@richardmcquiston01/ats-resume-export';
 import { CheckboxIcon, PencilIcon, PlusIcon } from './icons';
 import { TextField } from './ui/TextField';
 

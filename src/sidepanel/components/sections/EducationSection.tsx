@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react';
 
-import type { EducationEntry } from '@hired-hand/resume-core';
-import { createBlankEducationEntry } from '@hired-hand/resume-core';
+import type { EducationEntry } from '@richardmcquiston01/ats-resume-export';
+import { createBlankEducationEntry } from '@richardmcquiston01/ats-resume-export';
 import { RepeatingSection } from '../RepeatingSection';
 import { CheckboxField } from '../ui/CheckboxField';
 import { StringListField } from '../ui/StringListField';

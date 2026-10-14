@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react';
 
-import type { ProjectEntry } from '@hired-hand/resume-core';
+import type { ProjectEntry } from '@richardmcquiston01/ats-resume-export';
 import { ScreenshotsField } from '../ui/ScreenshotsField';
 import { TagInputField } from '../ui/TagInputField';
 import { TextAreaField } from '../ui/TextAreaField';

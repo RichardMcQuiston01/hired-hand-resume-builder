@@ -5,8 +5,8 @@ import {
   checkResumeStructure,
   matchKeywords,
   type AtsFindingSeverity,
-} from '@hired-hand/resume-core';
-import type { Resume } from '@hired-hand/resume-core';
+} from '@richardmcquiston01/ats-resume-export';
+import type { Resume } from '@richardmcquiston01/ats-resume-export';
 import { TextAreaField } from './ui/TextAreaField';
 
 interface AtsPanelProps {
