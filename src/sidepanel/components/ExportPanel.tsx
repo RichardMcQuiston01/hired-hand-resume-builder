@@ -10,8 +10,13 @@ import {
   exportResumeAsPlainText,
   resumeFileBaseName,
 } from '@richardmcquiston01/ats-resume-export';
-import type { Resume } from '@richardmcquiston01/ats-resume-export';
+import type {
+  Resume,
+  StyleOption,
+} from '@richardmcquiston01/ats-resume-export';
 import { downloadBlob } from '../utils/downloadBlob';
+import { useExportStyle } from '../hooks/useExportStyle';
+import { ExportStyleFields } from './ExportStyleFields';
 import { DownloadIcon } from './icons';
 
 interface ExportPanelProps {
@@ -21,7 +26,7 @@ interface ExportPanelProps {
 interface ExportFormatConfig {
   label: string;
   extension: string;
-  generate: (resume: Resume) => Promise<Blob>;
+  generate: (resume: Resume, style: StyleOption) => Promise<Blob>;
 }
 
 // The docx and pdf-lib libraries are large; import them lazily so opening
@@ -46,27 +51,29 @@ const EXPORT_FORMATS: Record<string, ExportFormatConfig> = {
   html: {
     label: 'HTML',
     extension: 'html',
-    generate: (resume) =>
+    generate: (resume, style) =>
       Promise.resolve(
-        new Blob([exportResumeAsHtml(resume)], { type: 'text/html' }),
+        new Blob([exportResumeAsHtml(resume, { style })], {
+          type: 'text/html',
+        }),
       ),
   },
   docx: {
     label: 'DOCX',
     extension: 'docx',
-    generate: async (resume) => {
+    generate: async (resume, style) => {
       const { exportResumeAsDocx } =
         await import('@richardmcquiston01/ats-resume-export/docx');
-      return exportResumeAsDocx(resume);
+      return exportResumeAsDocx(resume, { style });
     },
   },
   pdf: {
     label: 'PDF',
     extension: 'pdf',
-    generate: async (resume) => {
+    generate: async (resume, style) => {
       const { exportResumeAsPdf } =
         await import('@richardmcquiston01/ats-resume-export/pdf');
-      return exportResumeAsPdf(resume);
+      return exportResumeAsPdf(resume, { style });
     },
   },
 };
@@ -77,6 +84,7 @@ export function ExportPanel({ resume }: ExportPanelProps): ReactElement {
   );
   const [isExporting, setIsExporting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const exportStyle = useExportStyle();
 
   function toggleFormat(formatId: string): void {
     setSelectedFormats((prev) => {
@@ -103,7 +111,7 @@ export function ExportPanel({ resume }: ExportPanelProps): ReactElement {
         continue;
       }
       try {
-        const blob = await config.generate(resume);
+        const blob = await config.generate(resume, exportStyle.resolved.style);
         downloadBlob(blob, `${resumeFileBaseName(resume)}.${config.extension}`);
       } catch (exportError: unknown) {
         console.error(
@@ -145,6 +153,19 @@ export function ExportPanel({ resume }: ExportPanelProps): ReactElement {
           );
         })}
       </div>
+      <details className="rounded border border-border-subtle px-3 py-2">
+        <summary className="cursor-pointer text-sm font-medium text-ink-900">
+          Style
+        </summary>
+        <div className="mt-3">
+          <ExportStyleFields
+            settings={exportStyle.settings}
+            resolved={exportStyle.resolved}
+            onChange={exportStyle.updateSettings}
+            onReset={exportStyle.resetSettings}
+          />
+        </div>
+      </details>
       <button
         type="button"
         disabled={isExporting || selectedFormats.size === 0}

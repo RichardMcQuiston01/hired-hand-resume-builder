@@ -96,6 +96,16 @@ formats — **TXT**, **JSON**, **HTML**, **DOCX**, or **PDF**. The PDF and
 DOCX exports are real, ATS-parseable text, not a flattened image, and the
 JSON export round-trips losslessly through **Import**.
 
+Open **Style** in the Export section to tune how the HTML, DOCX, and PDF
+files read for the people who review them: pick a preset (**Compact**,
+**Standard**, or **Comfortable**), then optionally set the font, text and
+heading sizes, line and section spacing, margins, paper size, and heading
+case. Out-of-range values are flagged and ignored, and settings that tend to
+hurt readability (such as text under 10 pt) get a note. The layout is always a
+single column of real text in a standard font, so the files stay ATS-safe
+whatever you choose. Your choices are saved in the browser and apply to every
+profile. TXT and JSON have no layout and ignore them.
+
 ### Importing a resume
 
 The **Import** section reads a previously exported JSON file (from this
