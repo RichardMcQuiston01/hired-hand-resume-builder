@@ -1,6 +1,7 @@
 import type { ReactElement } from 'react';
 
 import type { Resume } from '@richardmcquiston01/ats-resume-export';
+import { PortfolioExportPanel } from './PortfolioExportPanel';
 import { FeaturedProjectsSection } from './sections/FeaturedProjectsSection';
 import { PortfolioBioSection } from './sections/PortfolioBioSection';
 import { ProjectShowcaseSection } from './sections/ProjectShowcaseSection';
@@ -51,6 +52,7 @@ export function PortfolioForm({
           }));
         }}
       />
+      <PortfolioExportPanel resume={resume} />
     </div>
   );
 }
