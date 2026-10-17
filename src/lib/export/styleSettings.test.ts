@@ -25,6 +25,35 @@ describe('resolveExportStyleSettings', () => {
     expect(resolved.warnings).toEqual([]);
   });
 
+  it('prints no extra details by default', () => {
+    expect(
+      resolveExportStyleSettings(DEFAULT_EXPORT_STYLE_SETTINGS).details,
+    ).toEqual({
+      projectLinks: 'off',
+      projectTechStack: 'off',
+      projectOutcome: 'off',
+      credentialUrl: 'off',
+    });
+  });
+
+  it('passes the chosen detail placements through', () => {
+    const resolved = resolveExportStyleSettings(
+      withChanges({
+        projectLinks: 'below',
+        projectTechStack: 'heading',
+        projectOutcome: 'below',
+        credentialUrl: 'heading',
+      }),
+    );
+
+    expect(resolved.details).toEqual({
+      projectLinks: 'below',
+      projectTechStack: 'heading',
+      projectOutcome: 'below',
+      credentialUrl: 'heading',
+    });
+  });
+
   it('turns typed numbers and chosen options into a style', () => {
     const resolved = resolveExportStyleSettings(
       withChanges({
@@ -94,6 +123,22 @@ describe('export style storage', () => {
     await saveExportStyleSettings(settings);
 
     await expect(loadExportStyleSettings()).resolves.toEqual(settings);
+  });
+
+  it('loads settings saved before the detail options existed, defaulting them to off', async () => {
+    const {
+      projectLinks,
+      projectTechStack,
+      projectOutcome,
+      credentialUrl,
+      ...older
+    } = withChanges({ preset: 'compact', fontSize: '11' });
+    void [projectLinks, projectTechStack, projectOutcome, credentialUrl];
+    await chrome.storage.local.set({ [EXPORT_STYLE_STORAGE_KEY]: older });
+
+    await expect(loadExportStyleSettings()).resolves.toEqual(
+      withChanges({ preset: 'compact', fontSize: '11' }),
+    );
   });
 
   it('ignores a stored value that fails validation', async () => {

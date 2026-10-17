@@ -2,13 +2,18 @@ import { z } from 'zod';
 
 import {
   checkExportStyle,
+  DETAIL_PLACEMENTS,
   FONT_FAMILIES,
   HEADING_CASES,
+  OUTCOME_PLACEMENTS,
   PAGE_SIZES,
   STYLE_PRESETS,
   validateExportStyle,
 } from '@richardmcquiston01/ats-resume-export';
-import type { ExportStyleInput } from '@richardmcquiston01/ats-resume-export';
+import type {
+  ExportDetails,
+  ExportStyleInput,
+} from '@richardmcquiston01/ats-resume-export';
 
 /** Bumped whenever the persisted shape below changes. */
 export const EXPORT_STYLE_SCHEMA_VERSION = 1;
@@ -31,7 +36,8 @@ export type NumericStyleKey = (typeof NUMERIC_STYLE_KEYS)[number];
  * What the user has chosen. Numeric options are kept as the text typed into
  * the field ("" = not set) so a half-typed value like "1." survives a render;
  * `resolveExportStyleSettings` turns them into numbers. The enum options use
- * "" for "not set" (the preset decides).
+ * "" for "not set" (the preset decides). The detail placements default to
+ * "off" so settings saved before they existed still load.
  */
 const exportStyleSettingsSchema = z.object({
   version: z.literal(EXPORT_STYLE_SCHEMA_VERSION),
@@ -46,6 +52,10 @@ const exportStyleSettingsSchema = z.object({
   sectionSpacing: z.string(),
   entrySpacing: z.string(),
   margin: z.string(),
+  projectLinks: z.enum(DETAIL_PLACEMENTS).default('off'),
+  projectTechStack: z.enum(DETAIL_PLACEMENTS).default('off'),
+  projectOutcome: z.enum(OUTCOME_PLACEMENTS).default('off'),
+  credentialUrl: z.enum(DETAIL_PLACEMENTS).default('off'),
 });
 
 export type ExportStyleSettings = z.infer<typeof exportStyleSettingsSchema>;
@@ -64,11 +74,17 @@ export const DEFAULT_EXPORT_STYLE_SETTINGS: ExportStyleSettings = {
   sectionSpacing: '',
   entrySpacing: '',
   margin: '',
+  projectLinks: 'off',
+  projectTechStack: 'off',
+  projectOutcome: 'off',
+  credentialUrl: 'off',
 };
 
 export interface ResolvedExportStyleSettings {
   /** Always valid, so it can be passed straight to the exporters. */
   style: ExportStyleInput;
+  /** Which project and certification details to print, and where. */
+  details: ExportDetails;
   /** Options that were ignored, keyed by option name, each with why. */
   problems: Partial<Record<keyof ExportStyleInput, string>>;
   /** Readability notes about valid-but-risky choices; they never block an export. */
@@ -127,7 +143,13 @@ export function resolveExportStyleSettings(
   const warnings: string[] = checkExportStyle(style).map(
     (finding) => finding.message,
   );
-  return { style, problems, warnings };
+  const details: ExportDetails = {
+    projectLinks: settings.projectLinks,
+    projectTechStack: settings.projectTechStack,
+    projectOutcome: settings.projectOutcome,
+    credentialUrl: settings.credentialUrl,
+  };
+  return { style, details, problems, warnings };
 }
 
 /**
