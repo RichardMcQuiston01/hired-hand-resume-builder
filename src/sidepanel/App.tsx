@@ -5,6 +5,7 @@ import { AccordionSection } from './components/AccordionSection';
 import { AiPanel } from './components/AiPanel';
 import {
   KeywordMatchSection,
+  PortfolioChecksSection,
   StructuralChecksSection,
 } from './components/AtsPanel';
 import { DonateToast } from './components/DonateToast';
@@ -118,6 +119,7 @@ export function App(): ReactElement {
 
           <AccordionSection title="ATS Check">
             <StructuralChecksSection resume={activeProfile.resume} />
+            <PortfolioChecksSection resume={activeProfile.resume} />
           </AccordionSection>
 
           <AccordionSection title="Keyword Match">
