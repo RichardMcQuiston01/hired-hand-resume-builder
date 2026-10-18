@@ -3,12 +3,16 @@ import type {
   FontFamily,
   ProjectEntry,
   Recommendation,
-  RecommendationRelationship,
   Resume,
   Screenshot,
   StyleOption,
 } from '@richardmcquiston01/ats-resume-export';
-import { selectPortfolioContent } from './portfolioContent';
+import {
+  IMAGE_DATA_URL_PATTERN,
+  RELATIONSHIP_LABELS,
+  safeHttpUrl,
+  selectPortfolioContent,
+} from './portfolioContent';
 
 export interface PortfolioHtmlOptions {
   /** Only the font family is used; a portfolio is a web page, not a print layout. */
@@ -21,19 +25,6 @@ const FONT_STACKS: Record<FontFamily, string> = {
   monospace: "ui-monospace, 'Courier New', Courier, monospace",
 };
 
-const RELATIONSHIP_LABELS: Record<RecommendationRelationship, string> = {
-  manager: 'Manager',
-  peer: 'Colleague',
-  direct_report: 'Direct report',
-  client: 'Client',
-  mentor: 'Mentor',
-  professor: 'Professor',
-  other: '',
-};
-
-const IMAGE_DATA_URL_PATTERN: RegExp =
-  /^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/]+=*$/;
-
 function escapeHtml(value: string): string {
   return value
     .replace(/&/g, '&amp;')
@@ -41,24 +32,6 @@ function escapeHtml(value: string): string {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
-}
-
-/**
- * Returns the URL only when it is a plain http(s) link, so a `javascript:`
- * or `data:` URL typed into a link field can never become a clickable link.
- */
-function safeHttpUrl(value: string | undefined): string | undefined {
-  if (!value) {
-    return undefined;
-  }
-  try {
-    const parsed: URL = new URL(value.trim());
-    return parsed.protocol === 'https:' || parsed.protocol === 'http:'
-      ? parsed.href
-      : undefined;
-  } catch {
-    return undefined;
-  }
 }
 
 function link(label: string, url: string | undefined): string {
