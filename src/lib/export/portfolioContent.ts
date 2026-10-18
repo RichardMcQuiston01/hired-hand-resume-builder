@@ -1,6 +1,7 @@
 import type {
   ProjectEntry,
   Recommendation,
+  RecommendationRelationship,
   Resume,
 } from '@richardmcquiston01/ats-resume-export';
 
@@ -58,3 +59,36 @@ export function portfolioFileBaseName(resume: Resume): string {
     .replace(/^-+|-+$/g, '');
   return slug.length > 0 ? `${slug}-portfolio` : 'portfolio';
 }
+
+/** Matches a base64-encoded raster image, e.g. "data:image/png;base64,...". */
+export const IMAGE_DATA_URL_PATTERN: RegExp =
+  /^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/]+=*$/;
+
+/**
+ * Returns the URL only when it is a plain http(s) link, so a `javascript:`
+ * or `data:` URL typed into a link field can never become a clickable link.
+ */
+export function safeHttpUrl(value: string | undefined): string | undefined {
+  if (!value) {
+    return undefined;
+  }
+  try {
+    const parsed: URL = new URL(value.trim());
+    return parsed.protocol === 'https:' || parsed.protocol === 'http:'
+      ? parsed.href
+      : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+/** How a recommendation's author relates to the portfolio owner; "" is omitted. */
+export const RELATIONSHIP_LABELS: Record<RecommendationRelationship, string> = {
+  manager: 'Manager',
+  peer: 'Colleague',
+  direct_report: 'Direct report',
+  client: 'Client',
+  mentor: 'Mentor',
+  professor: 'Professor',
+  other: '',
+};
