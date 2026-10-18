@@ -7,6 +7,10 @@ import {
   type AtsFindingSeverity,
 } from '@richardmcquiston01/ats-resume-export';
 import type { Resume } from '@richardmcquiston01/ats-resume-export';
+import {
+  checkPortfolio,
+  hasPortfolioContent,
+} from '../../lib/ats/portfolioChecks';
 import { TextAreaField } from './ui/TextAreaField';
 
 interface AtsPanelProps {
@@ -42,6 +46,42 @@ export function StructuralChecksSection({
         </li>
       ))}
     </ul>
+  );
+}
+
+/**
+ * Portfolio-readiness checks, shown under the structural checks. Renders
+ * nothing until the user has started a portfolio, since it is optional.
+ */
+export function PortfolioChecksSection({
+  resume,
+}: AtsPanelProps): ReactElement | null {
+  const findings = useMemo(() => checkPortfolio(resume), [resume]);
+
+  if (!hasPortfolioContent(resume)) {
+    return null;
+  }
+
+  return (
+    <section className="flex flex-col gap-2">
+      <h3 className="text-sm font-semibold text-ink-900">Portfolio</h3>
+      {findings.length === 0 ? (
+        <p aria-live="polite" className="text-sm text-emerald-700">
+          No portfolio issues found.
+        </p>
+      ) : (
+        <ul aria-live="polite" className="flex flex-col gap-1">
+          {findings.map((finding) => (
+            <li
+              key={finding.id}
+              className={`rounded border px-2 py-1 text-xs ${SEVERITY_STYLES[finding.severity]}`}
+            >
+              {finding.message}
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
   );
 }
 
