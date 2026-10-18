@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import {
@@ -21,7 +21,10 @@ describe('PortfolioExportPanel', () => {
     render(<PortfolioExportPanel resume={createBlankResume()} />);
 
     expect(
-      screen.getByRole('button', { name: /download portfolio/i }),
+      screen.getByRole('button', { name: /download portfolio \(html\)/i }),
+    ).toBeDisabled();
+    expect(
+      screen.getByRole('button', { name: /download portfolio \(pdf\)/i }),
     ).toBeDisabled();
     expect(screen.getByText(/feature at least one project/i)).toBeVisible();
   });
@@ -34,7 +37,7 @@ describe('PortfolioExportPanel', () => {
     ).toBeVisible();
 
     fireEvent.click(
-      screen.getByRole('button', { name: /download portfolio/i }),
+      screen.getByRole('button', { name: /download portfolio \(html\)/i }),
     );
 
     expect(downloadBlob).toHaveBeenCalledTimes(1);
@@ -61,5 +64,20 @@ describe('PortfolioExportPanel', () => {
     );
 
     expect(screen.getByText(/1 recommendation left out/)).toBeVisible();
+  });
+
+  it('downloads a PDF', async () => {
+    render(<PortfolioExportPanel resume={createFixtureResume()} />);
+
+    fireEvent.click(
+      screen.getByRole('button', { name: /download portfolio \(pdf\)/i }),
+    );
+
+    await waitFor(() => {
+      expect(downloadBlob).toHaveBeenCalledTimes(1);
+    });
+    const [blob, fileName] = downloadBlob.mock.calls[0] as [Blob, string];
+    expect(fileName).toMatch(/-portfolio\.pdf$/);
+    expect(blob.type).toBe('application/pdf');
   });
 });
