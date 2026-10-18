@@ -36,7 +36,7 @@ describe('ExportPanel style options', () => {
   it('exports HTML with the chosen preset and font', async () => {
     render(<ExportPanel resume={createFixtureResume()} />);
 
-    fireEvent.click(screen.getByText('Style'));
+    fireEvent.click(screen.getByText('Style and details'));
     fireEvent.change(screen.getByLabelText('Font'), {
       target: { value: 'serif' },
     });
@@ -66,7 +66,7 @@ describe('ExportPanel style options', () => {
   it('saves a chosen style and restores it on the next open', async () => {
     const { unmount } = render(<ExportPanel resume={createFixtureResume()} />);
 
-    fireEvent.click(screen.getByText('Style'));
+    fireEvent.click(screen.getByText('Style and details'));
     fireEvent.change(screen.getByLabelText('Preset'), {
       target: { value: 'comfortable' },
     });
@@ -78,7 +78,7 @@ describe('ExportPanel style options', () => {
     unmount();
 
     render(<ExportPanel resume={createFixtureResume()} />);
-    fireEvent.click(screen.getByText('Style'));
+    fireEvent.click(screen.getByText('Style and details'));
 
     await waitFor(() => {
       expect(screen.getByLabelText('Preset')).toHaveValue('comfortable');
@@ -88,7 +88,7 @@ describe('ExportPanel style options', () => {
   it('reports an out-of-range value and still exports', async () => {
     render(<ExportPanel resume={createFixtureResume()} />);
 
-    fireEvent.click(screen.getByText('Style'));
+    fireEvent.click(screen.getByText('Style and details'));
     fireEvent.change(screen.getByLabelText(/Text size/), {
       target: { value: '99' },
     });
@@ -105,7 +105,7 @@ describe('ExportPanel style options', () => {
   it('resets every choice to the defaults', async () => {
     render(<ExportPanel resume={createFixtureResume()} />);
 
-    fireEvent.click(screen.getByText('Style'));
+    fireEvent.click(screen.getByText('Style and details'));
     fireEvent.change(screen.getByLabelText('Preset'), {
       target: { value: 'compact' },
     });
@@ -123,5 +123,45 @@ describe('ExportPanel style options', () => {
       EXPORT_STYLE_STORAGE_KEY
     ];
     expect(stored).toMatchObject({ preset: 'standard', margin: '' });
+  });
+
+  it('prints project and certification details only once they are switched on', async () => {
+    render(<ExportPanel resume={createFixtureResume()} />);
+    fireEvent.click(screen.getByRole('button', { name: 'TXT' }));
+
+    fireEvent.click(screen.getByRole('button', { name: /download/i }));
+    await waitFor(() => {
+      expect(downloadBlob).toHaveBeenCalledTimes(1);
+    });
+    expect(await readDownloadedText()).not.toContain('Tech stack:');
+
+    downloadBlob.mockReset();
+    fireEvent.click(screen.getByText('Style and details'));
+    fireEvent.change(screen.getByLabelText('Project tech stack'), {
+      target: { value: 'below' },
+    });
+    fireEvent.change(screen.getByLabelText('Project outcome'), {
+      target: { value: 'below' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: /download/i }));
+
+    await waitFor(() => {
+      expect(downloadBlob).toHaveBeenCalledTimes(1);
+    });
+    const text: string = await readDownloadedText();
+    expect(text).toContain('Tech stack: TypeScript');
+    expect(text).toContain('Outcome: ');
+    expect(text).not.toContain('Link:');
+  });
+
+  it('offers only off and its own line for the project outcome', () => {
+    render(<ExportPanel resume={createFixtureResume()} />);
+
+    fireEvent.click(screen.getByText('Style and details'));
+
+    const labels: string[] = Array.from(
+      (screen.getByLabelText('Project outcome') as HTMLSelectElement).options,
+    ).map((option) => option.textContent ?? '');
+    expect(labels).toEqual(['Off', 'On its own line']);
   });
 });

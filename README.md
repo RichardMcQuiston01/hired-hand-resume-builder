@@ -106,6 +106,13 @@ single column of real text in a standard font, so the files stay ATS-safe
 whatever you choose. Your choices are saved in the browser and apply to every
 profile. TXT and JSON have no layout and ignore them.
 
+The same section also controls **Details** that your resume already holds but
+exports leave out by default: a project's links, tech stack, and outcome, and
+a certification's credential link. Each is **Off** until you switch it on, and
+can go **after the name** on the heading line or **on its own line** below it
+(outcomes only go on their own line). Details apply to TXT, HTML, DOCX, and
+PDF.
+
 ### Importing a resume
 
 The **Import** section reads a previously exported JSON file (from this

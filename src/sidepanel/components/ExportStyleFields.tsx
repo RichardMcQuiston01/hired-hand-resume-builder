@@ -1,13 +1,20 @@
 import type { ReactElement } from 'react';
 
 import {
+  DETAIL_PLACEMENTS,
   FONT_FAMILIES,
   HEADING_CASES,
+  OUTCOME_PLACEMENTS,
   PAGE_SIZES,
   STYLE_LIMITS,
   STYLE_PRESETS,
 } from '@richardmcquiston01/ats-resume-export';
-import type { StylePreset } from '@richardmcquiston01/ats-resume-export';
+import type {
+  DetailPlacement,
+  ExportDetails,
+  OutcomePlacement,
+  StylePreset,
+} from '@richardmcquiston01/ats-resume-export';
 import type {
   ExportStyleSettings,
   NumericStyleKey,
@@ -62,6 +69,57 @@ const HEADING_CASE_OPTIONS: SelectOption[] = [
   })),
 ];
 
+const PLACEMENT_LABELS: Record<DetailPlacement, string> = {
+  off: 'Off',
+  heading: 'After the name',
+  below: 'On its own line',
+};
+
+const DETAIL_PLACEMENT_OPTIONS: SelectOption[] = DETAIL_PLACEMENTS.map(
+  (placement) => ({ value: placement, label: PLACEMENT_LABELS[placement] }),
+);
+
+const OUTCOME_PLACEMENT_OPTIONS: SelectOption[] = OUTCOME_PLACEMENTS.map(
+  (placement) => ({ value: placement, label: PLACEMENT_LABELS[placement] }),
+);
+
+interface DetailFieldConfig {
+  key: keyof ExportDetails;
+  label: string;
+  options: SelectOption[];
+}
+
+const DETAIL_FIELDS: DetailFieldConfig[] = [
+  {
+    key: 'projectLinks',
+    label: 'Project links',
+    options: DETAIL_PLACEMENT_OPTIONS,
+  },
+  {
+    key: 'projectTechStack',
+    label: 'Project tech stack',
+    options: DETAIL_PLACEMENT_OPTIONS,
+  },
+  {
+    key: 'projectOutcome',
+    label: 'Project outcome',
+    options: OUTCOME_PLACEMENT_OPTIONS,
+  },
+  {
+    key: 'credentialUrl',
+    label: 'Certification link',
+    options: DETAIL_PLACEMENT_OPTIONS,
+  },
+];
+
+function isDetailPlacement(value: string): value is DetailPlacement {
+  return (DETAIL_PLACEMENTS as readonly string[]).includes(value);
+}
+
+function isOutcomePlacement(value: string): value is OutcomePlacement {
+  return (OUTCOME_PLACEMENTS as readonly string[]).includes(value);
+}
+
 interface NumericFieldConfig {
   key: NumericStyleKey;
   label: string;
@@ -108,8 +166,8 @@ export function ExportStyleFields({
   return (
     <div className="flex flex-col gap-3">
       <p className="text-xs text-ink-600">
-        Applies to HTML, DOCX, and PDF. The layout stays a single column of
-        plain text, so applicant tracking systems can still read it.
+        Style applies to HTML, DOCX, and PDF. The layout stays a single column
+        of plain text, so applicant tracking systems can still read it.
       </p>
       <div className="flex gap-2">
         <SelectField
@@ -181,6 +239,34 @@ export function ExportStyleFields({
           ))}
         </ul>
       )}
+      <fieldset className="flex flex-col gap-2">
+        <legend className="text-sm font-semibold text-ink-900">Details</legend>
+        <p className="text-xs text-ink-600">
+          Extra project and certification details your resume already holds. Off
+          by default. Applies to TXT, HTML, DOCX, and PDF.
+        </p>
+        <div className="grid grid-cols-2 gap-2">
+          {DETAIL_FIELDS.map(({ key, label, options }) => (
+            <SelectField
+              key={key}
+              label={label}
+              value={settings[key]}
+              options={options}
+              onChange={(value) => {
+                if (key === 'projectOutcome') {
+                  onChange({
+                    projectOutcome: isOutcomePlacement(value) ? value : 'off',
+                  });
+                } else {
+                  onChange({
+                    [key]: isDetailPlacement(value) ? value : 'off',
+                  });
+                }
+              }}
+            />
+          ))}
+        </div>
+      </fieldset>
       <button
         type="button"
         onClick={onReset}
