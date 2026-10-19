@@ -103,7 +103,7 @@ export function ScreenshotsField({
         <span className="text-ink-600">
           {isAtLimit
             ? `Limit of ${MAX_SCREENSHOTS_PER_PROJECT} screenshots reached`
-            : `Add a PNG, JPEG, or WebP image (up to ${MAX_SCREENSHOTS_PER_PROJECT})`}
+            : `Add a PNG, JPEG, or WebP image (up to ${MAX_SCREENSHOTS_PER_PROJECT}). WebP is converted to PNG.`}
         </span>
         <input
           type="file"
