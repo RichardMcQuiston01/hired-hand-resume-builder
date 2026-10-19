@@ -24,8 +24,7 @@ Applicant Tracking System (ATS) you're working against.
 
 ### Build and load the extension
 
-The extension isn't published to the Chrome Web Store yet, so it's loaded
-as an unpacked build:
+To run the extension from source, load it as an unpacked build:
 
 ```sh
 npm install
