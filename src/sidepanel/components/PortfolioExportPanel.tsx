@@ -77,7 +77,7 @@ export function PortfolioExportPanel({
       downloadBlob(result.blob, `${portfolioFileBaseName(resume)}.pdf`);
       if (result.skippedScreenshotCount > 0) {
         setNotice(
-          `${pluralize(result.skippedScreenshotCount, 'screenshot')} left out of the PDF (WebP images can't be embedded). Use PNG or JPEG, or export HTML to keep them.`,
+          `${pluralize(result.skippedScreenshotCount, 'screenshot')} left out of the PDF (older WebP screenshots can't be embedded). Remove and re-add them to convert them to PNG, or export HTML to keep them.`,
         );
       }
     } catch (exportError: unknown) {

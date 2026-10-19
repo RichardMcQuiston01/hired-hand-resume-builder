@@ -17,7 +17,9 @@
   whether the author agreed to be published.
 - **Portfolio export** as a self-contained HTML page or a PDF, each with its own download button. Both include only
   recommendations whose author agreed to be published, limit links to http(s), and embed screenshots; the PDF has
-  clickable links and skips (and tells you about) screenshots it cannot read, such as WebP.
+  clickable links. A WebP screenshot is converted to PNG when you add it (larger images are scaled down to 1600 px on
+  the longest side) so it appears in both exports. A WebP saved before this release, or any screenshot the PDF cannot
+  read, is skipped in the PDF with a notice; remove and re-add a WebP to convert it.
 - **Portfolio readiness checks** in the ATS Check section: featured project count, a link, technologies, outcome and
   described screenshots per featured project, invalid links, a bio, and recommendations that will be left out or are too
   few. Nothing is shown until you start a portfolio.
